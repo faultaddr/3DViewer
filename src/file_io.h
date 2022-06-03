@@ -10,7 +10,7 @@
 #include <vector>
 #include <string>
 #include <map>
-#include "MyCloud.h"
+#include "data.h"
 
 using std::vector;
 using std::string;
@@ -19,19 +19,19 @@ using std::map;
 class FileIO {
 public:
 
-    MyCloud load(const QFileInfo& fileInfo);
-    MyCloud loadPLY(const QFileInfo& fileInfo);
-    MyCloud loadPCD(const QFileInfo& fileInfo);
-    MyCloud loadOBJ(const QFileInfo& fileInfo);
-    MyCloud loadSTL(const QFileInfo& fileInfo);
-    MyCloud loadVTK(const QFileInfo& fileInfo);
+    Data load(const QFileInfo& fileInfo);
+    Data loadPLY(const QFileInfo& fileInfo);
+    Data loadPCD(const QFileInfo& fileInfo);
+    Data loadOBJ(const QFileInfo& fileInfo);
+    Data loadSTL(const QFileInfo& fileInfo);
+    Data loadVTK(const QFileInfo& fileInfo);
 
-    bool save(const MyCloud& myCloud, const QFileInfo& fileInfo, bool isBinaryFormat);
-    bool savePLY(const MyCloud& myCloud, const QFileInfo& fileInfo, bool isBinaryFormat);
-    bool savePCD(const MyCloud& myCloud, const QFileInfo& fileInfo, bool isBinaryFormat);
-    bool saveOBJ(const MyCloud& myCloud, const QFileInfo& fileInfo);
-    bool saveSTL(const MyCloud& myCloud, const QFileInfo& fileInfo, bool isBinaryFormat);
-    bool saveVTK(const MyCloud& myCloud, const QFileInfo& fileInfo, bool isBinaryFormat);
+    bool save(const Data& myCloud, const QFileInfo& fileInfo, bool isBinaryFormat);
+    bool savePLY(const Data& myCloud, const QFileInfo& fileInfo, bool isBinaryFormat);
+    bool savePCD(const Data& myCloud, const QFileInfo& fileInfo, bool isBinaryFormat);
+    bool saveOBJ(const Data& myCloud, const QFileInfo& fileInfo);
+    bool saveSTL(const Data& myCloud, const QFileInfo& fileInfo, bool isBinaryFormat);
+    bool saveVTK(const Data& myCloud, const QFileInfo& fileInfo, bool isBinaryFormat);
 
     string getInputFormatsStr() const;
     string getOutputFormatsStr() const;

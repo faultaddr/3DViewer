@@ -1,4 +1,4 @@
-#include "CloudViewer.h"
+#include "viewer.h"
 #include <QtWidgets/QApplication>
 #include "glog/logging.h"
 #include <iomanip>
@@ -42,7 +42,7 @@ int main(int argc, char *argv[]) {
 
   QApplication a(argc, argv);
 
-  CloudViewer w;
+  Viewer w;
   w.show();
   return a.exec();
 }

@@ -7,18 +7,18 @@
 #include <pcl/visualization/pcl_visualizer.h>
 #include <string>
 #include <QFileInfo>
-#include "Tools.h"
+#include "tools.h"
 
 using namespace std;
 
 typedef pcl::PointXYZRGBA PointT;
 typedef pcl::PointCloud<PointT> PointCloudT;
 
-class MyCloud
+class Data
 {
 public:
-	MyCloud();
-	~MyCloud();
+	Data();
+	~Data();
 
 	bool isValid = false;
 
@@ -58,8 +58,8 @@ public:
 
 	void init(const QFileInfo& fileInfo, bool hasCloud, bool hasMesh);
 
-	static MyCloud getInvalidMyCloud() {
-		MyCloud myCloud;
+	static Data getInvalidMyCloud() {
+		Data myCloud;
 		myCloud.isValid = false;
 		return myCloud;
 	}

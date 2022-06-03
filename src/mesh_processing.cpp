@@ -1,4 +1,4 @@
-#include "MeshProcessing.h"
+#include "mesh_processing.h"
 #include <pcl/Vertices.h>
 #include <pcl/ModelCoefficients.h>
 #include <pcl/features/normal_3d.h>

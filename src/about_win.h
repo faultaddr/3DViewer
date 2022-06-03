@@ -3,8 +3,8 @@
 
 #include <QWidget>
 #include <QDialog>
-#include "ui_AboutWin.h"
-#include "GBK.h"
+#include "ui_about_win.h"
+#include "gbk.h"
 
 class AboutWin : public QDialog
 {

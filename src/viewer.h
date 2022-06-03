@@ -6,7 +6,7 @@
 // VTK_MODULE_INIT(vtkRenderingOpenGL2);
 // VTK_MODULE_INIT(vtkInteractionStyle);
 
-#include "MyCloud.h"
+#include "data.h"
 #include <pcl/io/pcd_io.h>
 #include <pcl/io/ply_io.h>
 #include <pcl/io/vtk_io.h>
@@ -22,12 +22,12 @@
 #include <vtkPointPicker.h>
 #include <vtkGenericOpenGLRenderWindow.h>
 #include <QtWidgets/QMainWindow>
-#include "GBK.h"
-#include "ui_CloudViewer.h"
-#include "AboutWin.h"
-#include "Tools.h"
-#include "MeshProcessing.h"
-#include "FileIO.h"
+#include "gbk.h"
+#include "ui_viewer.h"
+#include "about_win.h"
+#include "tools.h"
+#include "mesh_processing.h"
+#include "file_io.h"
 #include "glog/logging.h"
 
 #include <vector>
@@ -73,20 +73,20 @@ using std::vector;
 using std::string;
 using std::map;
 
-class CloudViewer : public QMainWindow
+class Viewer : public QMainWindow
 {
 	Q_OBJECT
 
 public:
-	CloudViewer(QWidget *parent = 0);
-	~CloudViewer();
+	Viewer(QWidget *parent = 0);
+	~Viewer();
 
 private:
 	Ui::CloudViewerClass ui;
 
 	pcl::PointCloud<pcl::PointXYZ>::Ptr xyzCloud;
-	MyCloud mycloud;
-	std::vector<MyCloud> mycloud_vec;
+	Data mycloud;
+	std::vector<Data> mycloud_vec;
 	boost::shared_ptr<pcl::visualization::PCLVisualizer> viewer;
 
 	FileIO fileIO;

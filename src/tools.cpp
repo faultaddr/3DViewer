@@ -1,4 +1,4 @@
-#include "Tools.h"
+#include "tools.h"
 
 QTime myTime;
 

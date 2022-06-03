@@ -7,10 +7,10 @@
 #include <string>
 using std::string;
 
-class GBK
+class gbk
 {
 public:
-	// QString(Unicode) -> std::string (GBK)
+	// QString(Unicode) -> std::string (gbk)
 	static string FromUnicode(const QString& qstr)
 	{
 		QTextCodec* pCodec = QTextCodec::codecForName("gb2312");
@@ -21,7 +21,7 @@ public:
 		return cstr;
 	}
 
-	// std::string (GBK) -> QString(Unicode)
+	// std::string (gbk) -> QString(Unicode)
 	static QString ToUnicode(const string& cstr)
 	{
 		QTextCodec* pCodec = QTextCodec::codecForName("gb2312");

@@ -1,15 +1,15 @@
-#include "MyCloud.h"
+#include "data.h"
 #include "pcl/conversions.h"
 
-MyCloud::MyCloud() {
+Data::Data() {
   cloud.reset(new PointCloudT);
   mesh.reset(new pcl::PolygonMesh);
 }
 
-MyCloud::~MyCloud() {
+Data::~Data() {
 }
 
-void MyCloud::init(const QFileInfo &fileInfo, bool hasCloudParam, bool hasMeshParam) {
+void Data::init(const QFileInfo &fileInfo, bool hasCloudParam, bool hasMeshParam) {
   hasCloud = hasCloudParam;
   hasMesh = hasMeshParam;
 
@@ -42,7 +42,7 @@ void MyCloud::init(const QFileInfo &fileInfo, bool hasCloudParam, bool hasMeshPa
 
 }
 
-void MyCloud::setPointColor(int r, int g, int b) {
+void Data::setPointColor(int r, int g, int b) {
   for (int i = 0; i != cloud->points.size(); ++i) {
     cloud->points[i].r = r;
     cloud->points[i].g = g;
@@ -50,18 +50,18 @@ void MyCloud::setPointColor(int r, int g, int b) {
   }
 }
 
-void MyCloud::setPointAlpha(int a) {
+void Data::setPointAlpha(int a) {
   for (int i = 0; i != cloud->points.size(); ++i) {
     cloud->points[i].a = a;
   }
 }
 
-void MyCloud::setShowMode(const string &mode) {
+void Data::setShowMode(const string &mode) {
   curMode = mode;
   show();
 }
 
-void MyCloud::showCloud() {
+void Data::showCloud() {
   viewer->removePointCloud(cloudId);
   viewer->addPointCloud(cloud, cloudId);
   visible = true;
@@ -69,7 +69,7 @@ void MyCloud::showCloud() {
 //      pcl::visualization::RenderingProperties::PCL_VISUALIZER_OPACITY, 1.0, cloudId, 0);
 }
 
-void MyCloud::hideCloud() {
+void Data::hideCloud() {
   viewer->removePointCloud(cloudId);
   visible = false;
 //  viewer->setPointCloudRenderingProperties(
@@ -77,20 +77,20 @@ void MyCloud::hideCloud() {
 
 }
 
-void MyCloud::showMesh() {
+void Data::showMesh() {
   if (meshId == "") return; // no mesh
   visible = true;
   viewer->removePolygonMesh(meshId);
   viewer->addPolygonMesh(*mesh, meshId);
 }
 
-void MyCloud::hideMesh() {
+void Data::hideMesh() {
   if (meshId == "") return;
   visible = false;
   viewer->removePolygonMesh(meshId);
 }
 
-void MyCloud::show() {
+void Data::show() {
   if (curMode == "point") {
     hideMesh();
     showCloud();
@@ -104,7 +104,7 @@ void MyCloud::show() {
 
 }
 
-void MyCloud::hide() {
+void Data::hide() {
   hideCloud();
   hideMesh();
 }
