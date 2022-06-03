@@ -6,8 +6,7 @@ Data::Data() {
   mesh.reset(new pcl::PolygonMesh);
 }
 
-Data::~Data() {
-}
+Data::~Data() = default;
 
 void Data::init(const QFileInfo &fileInfo, bool hasCloudParam, bool hasMeshParam) {
   hasCloud = hasCloudParam;
@@ -43,16 +42,16 @@ void Data::init(const QFileInfo &fileInfo, bool hasCloudParam, bool hasMeshParam
 }
 
 void Data::setPointColor(int r, int g, int b) {
-  for (int i = 0; i != cloud->points.size(); ++i) {
-    cloud->points[i].r = r;
-    cloud->points[i].g = g;
-    cloud->points[i].b = b;
+  for (auto & point : cloud->points) {
+    point.r = r;
+    point.g = g;
+    point.b = b;
   }
 }
 
 void Data::setPointAlpha(int a) {
-  for (int i = 0; i != cloud->points.size(); ++i) {
-    cloud->points[i].a = a;
+  for (auto & point : cloud->points) {
+    point.a = a;
   }
 }
 
@@ -78,14 +77,14 @@ void Data::hideCloud() {
 }
 
 void Data::showMesh() {
-  if (meshId == "") return; // no mesh
+  if (meshId.empty()) return; // no mesh
   visible = true;
   viewer->removePolygonMesh(meshId);
   viewer->addPolygonMesh(*mesh, meshId);
 }
 
 void Data::hideMesh() {
-  if (meshId == "") return;
+  if (meshId.empty()) return;
   visible = false;
   viewer->removePolygonMesh(meshId);
 }

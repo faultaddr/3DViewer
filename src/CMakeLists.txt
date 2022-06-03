@@ -10,7 +10,7 @@ set(CMAKE_AUTOUIC ON) # UI files
 # find package
 find_package(Qt5 REQUIRED Widgets)
 find_package(PCL 1.12.1 REQUIRED)
-add_subdirectory(glog)
+add_subdirectory(log)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
 add_definitions(${PCL_DEFINITIONS})
