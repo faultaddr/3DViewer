@@ -1,3 +1,4 @@
+#include <QTreeWidgetItem>
 #include "CloudViewer.h"
 
 CloudViewer::CloudViewer(QWidget *parent)
@@ -65,6 +66,11 @@ CloudViewer::CloudViewer(QWidget *parent)
   // Item in dataTree is right-clicked
   connect(ui.dataTree, SIGNAL(customContextMenuRequested(const QPoint&)), this, SLOT(popMenu(const QPoint&)));
 
+  connect(ui.dataTree,
+          SIGNAL(itemChanged(QTreeWidgetItem * , int)),
+          this,
+          SLOT(TreeItemChanged(QTreeWidgetItem * , int)));
+
   connect(ui.consoleTable,
           SIGNAL(customContextMenuRequested(const QPoint&)),
           this,
@@ -115,6 +121,7 @@ void CloudViewer::doOpen(const QStringList &filePathList) {
                                                          << toQString(mycloud.fileName));
     auto icon = QIcon(":/Resources/images/icon.png");
     cloudName->setIcon(0, icon);
+    cloudName->setCheckState(0, Qt::Checked);
     ui.dataTree->addTopLevelItem(cloudName);
     total_points += mycloud.cloud->points.size();
   }
@@ -356,8 +363,13 @@ void CloudViewer::initial() {
 //显示点云，不重置相机角度
 void CloudViewer::showPointcloud() {
   LOG(INFO) << "showPointcloud mycloud_vec size: " << mycloud_vec.size();
-  for (int i = 0; i != mycloud_vec.size(); i++) {
-    viewer->updatePointCloud(mycloud_vec[i].cloud, mycloud_vec[i].cloudId);
+  for (auto &my_cloud : mycloud_vec) {
+    if (my_cloud.visible) {
+      my_cloud.show();
+      viewer->updatePointCloud(my_cloud.cloud, my_cloud.cloudId);
+    } else {
+      my_cloud.hide();
+    }
   }
   //viewer->resetCamera();
   UpdateScreen();
@@ -940,6 +952,16 @@ void CloudViewer::popMenu(const QPoint &) {
 
   menu.exec(QCursor::pos()); //在当前鼠标位置显示
 }
+
+void CloudViewer::TreeItemChanged(QTreeWidgetItem *item, int index) {
+  index = ui.dataTree->indexOfTopLevelItem(item);  //获取item的行号
+  if (item->checkState(0)) {
+    mycloud_vec[index].visible = true;
+  } else {
+    mycloud_vec[index].visible = false;
+  }
+  showPointcloud();
+}
 void CloudViewer::hideItem() {
   QList<QTreeWidgetItem *> itemList = ui.dataTree->selectedItems();
   for (int i = 0; i != ui.dataTree->selectedItems().size(); i++) {
@@ -1117,7 +1139,7 @@ void CloudViewer::debug(const string &s) {
   QMessageBox::information(this, tr("Debug"), QString::fromLocal8Bit(s.c_str()));
 }
 
-void CloudViewer::UpdateScreen(){
+void CloudViewer::UpdateScreen() {
   ui.screen->update();
   ui.screen->renderWindow()->Render();
 }

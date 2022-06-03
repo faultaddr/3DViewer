@@ -62,6 +62,7 @@ void MyCloud::setShowMode(const string &mode) {
 }
 
 void MyCloud::showCloud() {
+  viewer->removePointCloud(cloudId);
   viewer->addPointCloud(cloud, cloudId);
   visible = true;
 //  viewer->setPointCloudRenderingProperties(
@@ -79,6 +80,7 @@ void MyCloud::hideCloud() {
 void MyCloud::showMesh() {
   if (meshId == "") return; // no mesh
   visible = true;
+  viewer->removePolygonMesh(meshId);
   viewer->addPolygonMesh(*mesh, meshId);
 }
 

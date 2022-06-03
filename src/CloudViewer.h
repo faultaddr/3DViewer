@@ -168,6 +168,8 @@ public slots:
 	void itemSelected(QTreeWidgetItem*, int);
 	// Item in dataTree is right-clicked
 	void popMenu(const QPoint&);
+
+    void TreeItemChanged(QTreeWidgetItem*, int);
 	void hideItem();
 	void showItem();
 	void deleteItem();
