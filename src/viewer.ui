@@ -52,7 +52,7 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_5">
     <item>
-     <widget class="QVTKOpenGLWidget" name="screen">
+     <widget class="QVTKOpenGLWidget" name="screen" native="true">
       <property name="minimumSize">
        <size>
         <width>600</width>
@@ -69,7 +69,7 @@
      <x>0</x>
      <y>0</y>
      <width>1246</width>
-     <height>26</height>
+     <height>36</height>
     </rect>
    </property>
    <property name="font">
@@ -215,7 +215,7 @@
     </size>
    </property>
    <property name="windowTitle">
-    <string>RGB</string>
+    <string>Config</string>
    </property>
    <attribute name="dockWidgetArea">
     <number>2</number>
@@ -223,272 +223,30 @@
    <widget class="QWidget" name="dockWidgetContents_4">
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
-      <layout class="QVBoxLayout" name="verticalLayout">
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout">
-         <item>
-          <widget class="QLabel" name="label_1">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <family>微软雅黑</family>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Red</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLCDNumber" name="rLCD">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="autoFillBackground">
-            <bool>false</bool>
-           </property>
-           <property name="inputMethodHints">
-            <set>Qt::ImhNone</set>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::Panel</enum>
-           </property>
-           <property name="frameShadow">
-            <enum>QFrame::Raised</enum>
-           </property>
-           <property name="lineWidth">
-            <number>1</number>
-           </property>
-           <property name="smallDecimalPoint">
-            <bool>false</bool>
-           </property>
-           <property name="digitCount">
-            <number>3</number>
-           </property>
-           <property name="mode">
-            <enum>QLCDNumber::Dec</enum>
-           </property>
-           <property name="value" stdset="0">
-            <double>255.000000000000000</double>
-           </property>
-           <property name="intValue" stdset="0">
-            <number>255</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
+      <widget class="QComboBox" name="renderNum">
+        <item>
+        <property name="text">
+         <string>Only Main Window</string>
+        </property>
        </item>
        <item>
-        <widget class="QSlider" name="rSlider">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>132</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximum">
-          <number>255</number>
-         </property>
-         <property name="sliderPosition">
-          <number>255</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
+        <property name="text">
+         <string>Two Render Window</string>
+        </property>
        </item>
        <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_2">
-         <item>
-          <widget class="QLabel" name="label_2">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <family>微软雅黑</family>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Green</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLCDNumber" name="gLCD">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::Panel</enum>
-           </property>
-           <property name="digitCount">
-            <number>3</number>
-           </property>
-           <property name="intValue" stdset="0">
-            <number>255</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
+        <property name="text">
+         <string>Four Render Window</string>
+        </property>
        </item>
        <item>
-        <widget class="QSlider" name="gSlider">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>132</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximum">
-          <number>255</number>
-         </property>
-         <property name="sliderPosition">
-          <number>255</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
+        <property name="text">
+         <string>Six Render Window</string>
+        </property>
        </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_3">
-         <item>
-          <widget class="QLabel" name="label_3">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <family>微软雅黑</family>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Blue</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLCDNumber" name="bLCD">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="frameShape">
-            <enum>QFrame::Panel</enum>
-           </property>
-           <property name="digitCount">
-            <number>3</number>
-           </property>
-           <property name="intValue" stdset="0">
-            <number>255</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
-        <widget class="QSlider" name="bSlider">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="minimumSize">
-          <size>
-           <width>132</width>
-           <height>0</height>
-          </size>
-         </property>
-         <property name="maximum">
-          <number>255</number>
-         </property>
-         <property name="sliderPosition">
-          <number>255</number>
-         </property>
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-        </widget>
-       </item>
-       <item>
-        <layout class="QHBoxLayout" name="horizontalLayout_4">
-         <item>
-          <widget class="QLabel" name="label_4">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="font">
-            <font>
-             <family>微软雅黑</family>
-             <pointsize>10</pointsize>
-            </font>
-           </property>
-           <property name="text">
-            <string>Point Size</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QLCDNumber" name="sizeLCD">
-           <property name="sizePolicy">
-            <sizepolicy hsizetype="Expanding" vsizetype="Minimum">
-             <horstretch>0</horstretch>
-             <verstretch>0</verstretch>
-            </sizepolicy>
-           </property>
-           <property name="digitCount">
-            <number>1</number>
-           </property>
-           <property name="segmentStyle">
-            <enum>QLCDNumber::Filled</enum>
-           </property>
-           <property name="intValue" stdset="0">
-            <number>1</number>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </item>
-       <item>
+      </widget>
+     </item>
+     <item>
         <widget class="QSlider" name="pSlider">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
@@ -516,25 +274,7 @@
          </property>
         </widget>
        </item>
-       <item>
-        <widget class="QPushButton" name="colorBtn">
-         <property name="font">
-          <font>
-           <family>Times New Roman</family>
-           <pointsize>11</pointsize>
-          </font>
-         </property>
-         <property name="styleSheet">
-          <string notr="true"/>
-         </property>
-         <property name="text">
-          <string>Color</string>
-         </property>
-        </widget>
-       </item>
-      </layout>
-     </item>
-     <item>
+      <item>
       <widget class="QCheckBox" name="cooCbx">
        <property name="font">
         <font>
@@ -648,6 +388,7 @@
        </property>
        <property name="font">
         <font>
+         <family>微软雅黑</family>
          <pointsize>9</pointsize>
         </font>
        </property>
@@ -708,14 +449,14 @@
        <attribute name="horizontalHeaderCascadingSectionResizes">
         <bool>false</bool>
        </attribute>
+       <attribute name="horizontalHeaderMinimumSectionSize">
+        <number>25</number>
+       </attribute>
        <attribute name="horizontalHeaderDefaultSectionSize">
         <number>100</number>
        </attribute>
        <attribute name="horizontalHeaderHighlightSections">
         <bool>true</bool>
-       </attribute>
-       <attribute name="horizontalHeaderMinimumSectionSize">
-        <number>25</number>
        </attribute>
        <attribute name="horizontalHeaderStretchLastSection">
         <bool>true</bool>
@@ -1128,7 +869,7 @@
  <customwidgets>
   <customwidget>
    <class>QVTKOpenGLWidget</class>
-   <extends>QVTKOpenGLWidget.</extends>
+   <extends>QWidget</extends>
    <header>QVTKOpenGLWidget.h</header>
   </customwidget>
  </customwidgets>

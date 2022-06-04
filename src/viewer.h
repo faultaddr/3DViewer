@@ -19,8 +19,10 @@
 #include <pcl/visualization/common/common.h>
 #include <pcl/visualization/pcl_visualizer.h>
 #include <vtkGenericOpenGLRenderWindow.h>
+#include <vtkPNGWriter.h>
 #include <vtkPointPicker.h>
 #include <vtkRenderWindow.h>
+#include <vtkWindowToImageFilter.h>
 
 #include <QAction>
 #include <QColorDialog>
@@ -104,7 +106,7 @@ class Viewer : public QMainWindow {
   bool enable_console = true;    // console 的可用状态
   QString timeCostSecond = "0";  // 记录某个动作执行的时间
   vector<std::string> display_cloudId;
-
+  vtkSmartPointer<vtkWindowToImageFilter> window_to_image_filter;
   /***** Slots of QMenuBar and QToolBar *****/
   // File menu slots
   void open();
@@ -134,8 +136,9 @@ class Viewer : public QMainWindow {
 
   /***** Utils Methods ***/
   void initial();
-  void ShowModel();  //显示点云
-  void AddModel();   //添加给viewer，显示点云
+  void ShowModel();                  //显示点云
+  void AddModel(int view_port = 0);  //添加给viewer，显示点云
+  void CaptureModel(int viwe_port = 0);
 
   void setCloudColor(unsigned int r, unsigned int g, unsigned int b);
   void HighLightTreeItemText(QTreeWidgetItem* item);
@@ -150,19 +153,21 @@ class Viewer : public QMainWindow {
 
  public slots:
   void save();
-  void changeTheme();
-  void changeLanguage();
+  void ChangeTheme();
+  void ChangeLanguage();
 
-  void colorBtnPressed();
-  void RGBsliderReleased();
-  void psliderReleased();
-  void pSliderChanged(int value);
-  void rSliderChanged(int value);
-  void gSliderChanged(int value);
-  void bSliderChanged(int value);
+  // void colorBtnPressed();
+  // void RGBsliderReleased();
+  void PointSizeSliderReleased();
+  void PointSizeSliderChanged(int value);
+  // void rSliderChanged(int value);
+  // void gSliderChanged(int value);
+  // void bSliderChanged(int value);
   // Slots of checkBox
-  void cooCbxChecked(int value);
-  void bgcCbxChecked(int value);
+  void RenderNumChanged(int index);
+
+  void CooCbxChecked(int value);
+  void BgcCbxChecked(int value);
 
   /***** Slots of dataTree(QTreeWidget) widget *****/
   // Item in dataTree is left-clicked

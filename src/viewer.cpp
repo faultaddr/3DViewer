@@ -44,39 +44,42 @@ Viewer::Viewer(QWidget *parent) : QMainWindow(parent) {
   ui.englishAction->setData(QVariant(VIEWER_LANG_ENGLISH));
   ui.chineseAction->setData(QVariant(VIEWER_LANG_CHINESE));
   connect(ui.windowsThemeAction, SIGNAL(triggered()), this,
-          SLOT(changeTheme()));
+          SLOT(ChangeTheme()));
   connect(ui.darculaThemeAction, SIGNAL(triggered()), this,
-          SLOT(changeTheme()));
-  connect(ui.englishAction, SIGNAL(triggered()), this, SLOT(changeLanguage()));
-  connect(ui.chineseAction, SIGNAL(triggered()), this, SLOT(changeLanguage()));
+          SLOT(ChangeTheme()));
+  connect(ui.englishAction, SIGNAL(triggered()), this, SLOT(ChangeLanguage()));
+  connect(ui.chineseAction, SIGNAL(triggered()), this, SLOT(ChangeLanguage()));
   // About (connect)
   QObject::connect(ui.aboutAction, &QAction::triggered, this, &Viewer::about);
   QObject::connect(ui.helpAction, &QAction::triggered, this, &Viewer::help);
 
   /***** Slots connection of RGB widget *****/
   // Random color (connect)
-  connect(ui.colorBtn, SIGNAL(clicked()), this, SLOT(colorBtnPressed()));
-  // Connection between RGB slider and RGB value (connect)
-  connect(ui.rSlider, SIGNAL(valueChanged(int)), this,
-          SLOT(rSliderChanged(int)));
-  connect(ui.gSlider, SIGNAL(valueChanged(int)), this,
-          SLOT(gSliderChanged(int)));
-  connect(ui.bSlider, SIGNAL(valueChanged(int)), this,
-          SLOT(bSliderChanged(int)));
-  // RGB slider released (connect)
-  connect(ui.rSlider, SIGNAL(sliderReleased()), this,
-          SLOT(RGBsliderReleased()));
-  connect(ui.gSlider, SIGNAL(sliderReleased()), this,
-          SLOT(RGBsliderReleased()));
-  connect(ui.bSlider, SIGNAL(sliderReleased()), this,
-          SLOT(RGBsliderReleased()));
-  // Change size of cloud (connect)
+  // connect(ui.colorBtn, SIGNAL(clicked()), this, SLOT(colorBtnPressed()));
+  // // Connection between RGB slider and RGB value (connect)
+  // connect(ui.rSlider, SIGNAL(valueChanged(int)), this,
+  //         SLOT(rSliderChanged(int)));
+  // connect(ui.gSlider, SIGNAL(valueChanged(int)), this,
+  //         SLOT(gSliderChanged(int)));
+  // connect(ui.bSlider, SIGNAL(valueChanged(int)), this,
+  //         SLOT(bSliderChanged(int)));
+  // // RGB slider released (connect)
+  // connect(ui.rSlider, SIGNAL(sliderReleased()), this,
+  //         SLOT(RGBsliderReleased()));
+  // connect(ui.gSlider, SIGNAL(sliderReleased()), this,
+  //         SLOT(RGBsliderReleased()));
+  // connect(ui.bSlider, SIGNAL(sliderReleased()), this,
+  //         SLOT(RGBsliderReleased()));
+  // // Change size of cloud (connect)
+  connect(ui.renderNum, SIGNAL(currentIndexChanged(int)), this,
+          SLOT(RenderNumChanged(int)));
   connect(ui.pSlider, SIGNAL(valueChanged(int)), this,
-          SLOT(pSliderChanged(int)));
-  connect(ui.pSlider, SIGNAL(sliderReleased()), this, SLOT(psliderReleased()));
+          SLOT(PointSizeSliderChanged(int)));
+  connect(ui.pSlider, SIGNAL(sliderReleased()), this,
+          SLOT(PointSizeSliderReleased()));
   // Checkbox for coordinate and background color (connect)
-  connect(ui.cooCbx, SIGNAL(stateChanged(int)), this, SLOT(cooCbxChecked(int)));
-  connect(ui.bgcCbx, SIGNAL(stateChanged(int)), this, SLOT(bgcCbxChecked(int)));
+  connect(ui.cooCbx, SIGNAL(stateChanged(int)), this, SLOT(CooCbxChecked(int)));
+  connect(ui.bgcCbx, SIGNAL(stateChanged(int)), this, SLOT(BgcCbxChecked(int)));
 
   /***** Slots connection of dataTree(QTreeWidget) widget *****/
   // Item in dataTree is left-clicked (connect)
@@ -374,6 +377,8 @@ void Viewer::initial() {
 
   // 设置背景颜色为 dark
   viewer->setBackgroundColor(30 / 255.0, 30 / 255.0, 30 / 255.0);
+  window_to_image_filter = vtkSmartPointer<vtkWindowToImageFilter>::New();
+  window_to_image_filter->SetInput(ui.screen->renderWindow());
 }
 
 //显示点云
@@ -393,17 +398,19 @@ void Viewer::ShowModel() {
     viewer->resetCamera();
   }
   UpdateScreen();
+  CaptureModel();
 }
 
 //添加点云到viewer,并显示点云
-void Viewer::AddModel() {
+void Viewer::AddModel(int view_port) {
   LOG(INFO) << "AddModel mycloud_vec size: " << mycloud_vec.size();
   for (int i = 0; i != mycloud_vec.size(); i++) {
     if (std::find(display_cloudId.begin(), display_cloudId.end(),
                   mycloud_vec[i].cloudId) == display_cloudId.end() &&
         mycloud_vec[i].visible) {
       LOG(INFO) << "update point cloud " << mycloud_vec[i].cloudId;
-      viewer->addPointCloud(mycloud_vec[i].cloud, mycloud_vec[i].cloudId);
+      viewer->addPointCloud(mycloud_vec[i].cloud, mycloud_vec[i].cloudId,
+                            view_port);
       display_cloudId.push_back(mycloud_vec[i].cloudId);
       mycloud_vec[i].visible = true;
     } else {
@@ -413,6 +420,22 @@ void Viewer::AddModel() {
   ShowModel();
 }
 
+void Viewer::CaptureModel(int view_port) {
+  LOG(INFO) << "CaptureModel";
+  try {
+    // screenshot code:
+    window_to_image_filter->Modified();
+    window_to_image_filter->Update();
+    vtkImageData *id = window_to_image_filter->GetOutput();
+    LOG(INFO) << "Win2Img done " << clock() * 1.0 / CLOCKS_PER_SEC << std::endl;
+    vtkSmartPointer<vtkPNGWriter> writer = vtkSmartPointer<vtkPNGWriter>::New();
+    writer->SetFileName("out.png");  // my image with borders 300x300 !!!!??
+    writer->SetInputData(id);
+    writer->Write();
+  } catch (std::exception &e) {
+    LOG(ERROR) << "exception: " << e.what();
+  }
+}
 void Viewer::setCloudColor(unsigned int r, unsigned int g, unsigned int b) {
   // Set the new color
   for (size_t i = 0; i < mycloud.cloud->size(); i++) {
@@ -475,7 +498,7 @@ void Viewer::createCylinder() {
 }
 
 // Change theme: Windows/Darcula
-void Viewer::changeTheme() {
+void Viewer::ChangeTheme() {
   QAction *action = qobject_cast<QAction *>(sender());
   QVariant v = action->data();
   int theme = (int)v.value<int>();
@@ -512,7 +535,7 @@ void Viewer::changeTheme() {
 }
 
 // Change language: English/Chinese
-void Viewer::changeLanguage() {
+void Viewer::ChangeLanguage() {
   QAction *action = qobject_cast<QAction *>(sender());
   QVariant v = action->data();
   int language = (int)v.value<int>();
@@ -533,73 +556,73 @@ void Viewer::changeLanguage() {
 /*********************************************/
 /*****************界面槽函数*****************/
 /********************************************/
-void Viewer::colorBtnPressed() {
-  QList<QTreeWidgetItem *> itemList = ui.dataTree->selectedItems();
-  int selected_item_count = ui.dataTree->selectedItems().size();
-  // 如果未选中任何点云，则对视图窗口中的所有点云进行着色
-  if (selected_item_count == 0) {
-    for (int i = 0; i != mycloud_vec.size(); i++) {
-      for (int j = 0; j != mycloud_vec[i].cloud->points.size(); j++) {
-        mycloud_vec[i].cloud->points[j].r =
-            255 * (1024 * rand() / (RAND_MAX + 1.0f));
-        mycloud_vec[i].cloud->points[j].g =
-            255 * (1024 * rand() / (RAND_MAX + 1.0f));
-        mycloud_vec[i].cloud->points[j].b =
-            255 * (1024 * rand() / (RAND_MAX + 1.0f));
-      }
-    }
+// void Viewer::colorBtnPressed() {
+//   QList<QTreeWidgetItem *> itemList = ui.dataTree->selectedItems();
+//   int selected_item_count = ui.dataTree->selectedItems().size();
+//   // 如果未选中任何点云，则对视图窗口中的所有点云进行着色
+//   if (selected_item_count == 0) {
+//     for (int i = 0; i != mycloud_vec.size(); i++) {
+//       for (int j = 0; j != mycloud_vec[i].cloud->points.size(); j++) {
+//         mycloud_vec[i].cloud->points[j].r =
+//             255 * (1024 * rand() / (RAND_MAX + 1.0f));
+//         mycloud_vec[i].cloud->points[j].g =
+//             255 * (1024 * rand() / (RAND_MAX + 1.0f));
+//         mycloud_vec[i].cloud->points[j].b =
+//             255 * (1024 * rand() / (RAND_MAX + 1.0f));
+//       }
+//     }
 
-    // 输出窗口
-    consoleLog("Random color", "All point clous", "", "");
+//     // 输出窗口
+//     consoleLog("Random color", "All point clous", "", "");
 
-  } else {
-    for (int i = 0; i != selected_item_count; i++) {
-      int cloud_id = ui.dataTree->indexOfTopLevelItem(itemList[i]);
-      for (int j = 0; j != mycloud_vec[cloud_id].cloud->size(); j++) {
-        mycloud_vec[cloud_id].cloud->points[j].r = red;
-        mycloud_vec[cloud_id].cloud->points[j].g =
-            255 * (1024 * rand() / (RAND_MAX + 1.0f));
-        mycloud_vec[cloud_id].cloud->points[j].b =
-            255 * (1024 * rand() / (RAND_MAX + 1.0f));
-      }
-    }
+//   } else {
+//     for (int i = 0; i != selected_item_count; i++) {
+//       int cloud_id = ui.dataTree->indexOfTopLevelItem(itemList[i]);
+//       for (int j = 0; j != mycloud_vec[cloud_id].cloud->size(); j++) {
+//         mycloud_vec[cloud_id].cloud->points[j].r = red;
+//         mycloud_vec[cloud_id].cloud->points[j].g =
+//             255 * (1024 * rand() / (RAND_MAX + 1.0f));
+//         mycloud_vec[cloud_id].cloud->points[j].b =
+//             255 * (1024 * rand() / (RAND_MAX + 1.0f));
+//       }
+//     }
 
-    // 输出窗口
-    consoleLog("Random color", "Point clouds selected", "", "");
-  }
-  ShowModel();
-}
+//     // 输出窗口
+//     consoleLog("Random color", "Point clouds selected", "", "");
+//   }
+//   ShowModel();
+// }
 
-void Viewer::RGBsliderReleased() {
-  QList<QTreeWidgetItem *> itemList = ui.dataTree->selectedItems();
-  int selected_item_count = ui.dataTree->selectedItems().size();
-  // 如果未选中任何点云，则对视图窗口中的所有点云进行着色
-  if (selected_item_count == 0) {
-    for (int i = 0; i != mycloud_vec.size(); i++) {
-      mycloud_vec[i].setPointColor(red, green, blue);
-    }
+// void Viewer::RGBsliderReleased() {
+//   QList<QTreeWidgetItem *> itemList = ui.dataTree->selectedItems();
+//   int selected_item_count = ui.dataTree->selectedItems().size();
+//   // 如果未选中任何点云，则对视图窗口中的所有点云进行着色
+//   if (selected_item_count == 0) {
+//     for (int i = 0; i != mycloud_vec.size(); i++) {
+//       mycloud_vec[i].setPointColor(red, green, blue);
+//     }
 
-    // 输出窗口
-    consoleLog("Change cloud color", "All point clouds",
-               QString::number(red) + " " + QString::number(green) + " " +
-                   QString::number(blue),
-               "");
-  } else {
-    for (int i = 0; i != selected_item_count; i++) {
-      int cloud_id = ui.dataTree->indexOfTopLevelItem(itemList[i]);
-      mycloud_vec[cloud_id].setPointColor(red, green, blue);
-    }
-    // 输出窗口
-    consoleLog("Change cloud color", "Point clouds selected",
-               QString::number(red) + " " + QString::number(green) + " " +
-                   QString::number(blue),
-               "");
-  }
-  ShowModel();
-}
+//     // 输出窗口
+//     consoleLog("Change cloud color", "All point clouds",
+//                QString::number(red) + " " + QString::number(green) + " " +
+//                    QString::number(blue),
+//                "");
+//   } else {
+//     for (int i = 0; i != selected_item_count; i++) {
+//       int cloud_id = ui.dataTree->indexOfTopLevelItem(itemList[i]);
+//       mycloud_vec[cloud_id].setPointColor(red, green, blue);
+//     }
+//     // 输出窗口
+//     consoleLog("Change cloud color", "Point clouds selected",
+//                QString::number(red) + " " + QString::number(green) + " " +
+//                    QString::number(blue),
+//                "");
+//   }
+//   ShowModel();
+// }
 
-//设置所有点云的尺寸
-void Viewer::psliderReleased() {
+// //设置所有点云的尺寸
+void Viewer::PointSizeSliderReleased() {
   QList<QTreeWidgetItem *> itemList = ui.dataTree->selectedItems();
   int selected_item_count = ui.dataTree->selectedItems().size();
   if (selected_item_count == 0) {
@@ -629,27 +652,58 @@ void Viewer::psliderReleased() {
   UpdateScreen();
 }
 
-void Viewer::pSliderChanged(int value) {
-  p = value;
-  ui.sizeLCD->display(value);
-}
+void Viewer::PointSizeSliderChanged(int value) { p = value; }
 
-void Viewer::rSliderChanged(int value) {
-  red = value;
-  ui.rLCD->display(value);
-}
+// void Viewer::rSliderChanged(int value) {
+//   red = value;
+//   ui.rLCD->display(value);
+// }
 
-void Viewer::gSliderChanged(int value) {
-  green = value;
-  ui.gLCD->display(value);
-}
+// void Viewer::gSliderChanged(int value) {
+//   green = value;
+//   ui.gLCD->display(value);
+// }
 
-void Viewer::bSliderChanged(int value) {
-  blue = value;
-  ui.bLCD->display(value);
+// void Viewer::bSliderChanged(int value) {
+//   blue = value;
+//   ui.bLCD->display(value);
+// }
+void Viewer::RenderNumChanged(int index) {
+  LOG(INFO) << "RenderNumChanged";
+  switch (index) {
+    case 0: {
+      break;
+    }
+    case 1: {
+      int v1(0), v2(0);
+      //先移除所有 point
+      viewer->removeAllPointClouds();
+      viewer->createViewPort(0.0, 0.0, 0.5, 1.0, v1);
+      viewer->addText("", 10, 10, "v1", v1);  //设置视口名称
+      viewer->createViewPort(0.5, 0.0, 1.0, 1.0, v2);
+      viewer->addText("", 10, 10, "v2", v2);
+      // 先全加到 render window 1 中，后续自行更改
+      for (auto &model : mycloud_vec) {
+        viewer->addPointCloud(model.cloud, model.cloudId, v1);
+        viewer->updatePointCloud(model.cloud, model.cloudId);
+      }
+      UpdateScreen();
+      // two render window
+      break;
+    }
+    case 2: {
+      // four render window
+      ;
+      break;
+    }
+    case 3: {
+      // six render window
+      ;
+      break;
+    }
+  }
 }
-
-void Viewer::cooCbxChecked(int value) {
+void Viewer::CooCbxChecked(int value) {
   switch (value) {
     case 0: {
       viewer->removeCoordinateSystem();
@@ -665,7 +719,7 @@ void Viewer::cooCbxChecked(int value) {
   UpdateScreen();
 }
 
-void Viewer::bgcCbxChecked(int value) {
+void Viewer::BgcCbxChecked(int value) {
   switch (value) {
     case 0: {
       viewer->setBackgroundColor(30 / 255.0, 30 / 255.0, 30 / 255.0);
@@ -716,9 +770,9 @@ void Viewer::pointcolorChanged() {
                  "");
     }
     //颜色的改变同步至RGB停靠窗口
-    ui.rSlider->setValue(color.red());
-    ui.gSlider->setValue(color.green());
-    ui.bSlider->setValue(color.blue());
+    // ui.rSlider->setValue(color.red());
+    // ui.gSlider->setValue(color.green());
+    // ui.bSlider->setValue(color.blue());
 
     ShowModel();
   }
