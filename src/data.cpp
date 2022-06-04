@@ -1,4 +1,5 @@
 #include "data.h"
+
 #include "pcl/conversions.h"
 
 Data::Data() {
@@ -8,7 +9,8 @@ Data::Data() {
 
 Data::~Data() = default;
 
-void Data::init(const QFileInfo &fileInfo, bool hasCloudParam, bool hasMeshParam) {
+void Data::init(const QFileInfo &fileInfo, bool hasCloudParam,
+                bool hasMeshParam) {
   hasCloud = hasCloudParam;
   hasMesh = hasMeshParam;
 
@@ -38,11 +40,10 @@ void Data::init(const QFileInfo &fileInfo, bool hasCloudParam, bool hasMeshParam
 
   // default show node
   curMode = "point";
-
 }
 
 void Data::setPointColor(int r, int g, int b) {
-  for (auto & point : cloud->points) {
+  for (auto &point : cloud->points) {
     point.r = r;
     point.g = g;
     point.b = b;
@@ -50,7 +51,7 @@ void Data::setPointColor(int r, int g, int b) {
 }
 
 void Data::setPointAlpha(int a) {
-  for (auto & point : cloud->points) {
+  for (auto &point : cloud->points) {
     point.a = a;
   }
 }
@@ -64,20 +65,21 @@ void Data::showCloud() {
   viewer->removePointCloud(cloudId);
   viewer->addPointCloud(cloud, cloudId);
   visible = true;
-//  viewer->setPointCloudRenderingProperties(
-//      pcl::visualization::RenderingProperties::PCL_VISUALIZER_OPACITY, 1.0, cloudId, 0);
+  //  viewer->setPointCloudRenderingProperties(
+  //      pcl::visualization::RenderingProperties::PCL_VISUALIZER_OPACITY, 1.0,
+  //      cloudId, 0);
 }
 
 void Data::hideCloud() {
   viewer->removePointCloud(cloudId);
   visible = false;
-//  viewer->setPointCloudRenderingProperties(
-//      pcl::visualization::RenderingProperties::PCL_VISUALIZER_OPACITY, 0.0, cloudId, 0);
-
+  //  viewer->setPointCloudRenderingProperties(
+  //      pcl::visualization::RenderingProperties::PCL_VISUALIZER_OPACITY, 0.0,
+  //      cloudId, 0);
 }
 
 void Data::showMesh() {
-  if (meshId.empty()) return; // no mesh
+  if (meshId.empty()) return;  // no mesh
   visible = true;
   viewer->removePolygonMesh(meshId);
   viewer->addPolygonMesh(*mesh, meshId);
@@ -100,7 +102,6 @@ void Data::show() {
     showCloud();
     showMesh();
   }
-
 }
 
 void Data::hide() {

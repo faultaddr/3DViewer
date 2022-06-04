@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.5)
 
-project(CloudViewer)
+project(3DViewer)
 
 # init qt
 set(CMAKE_AUTOMOC ON) # for meta object compiler

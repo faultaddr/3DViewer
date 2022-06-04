@@ -1,6 +1,8 @@
 #include "file_io.h"
-#include "tools.h"
+
 #include <QString>
+
+#include "tools.h"
 
 Data FileIO::loadPLY(const QFileInfo &fileInfo) {
   Data myCloud;
@@ -85,7 +87,8 @@ Data FileIO::load(const QFileInfo &fileInfo) {
   }
 }
 
-bool FileIO::savePLY(const Data &myCloud, const QFileInfo &fileInfo, bool isBinaryFormat) {
+bool FileIO::savePLY(const Data &myCloud, const QFileInfo &fileInfo,
+                     bool isBinaryFormat) {
   if (!myCloud.isValid) return false;
   string filePath = fromQString(fileInfo.filePath());
   if (myCloud.hasMesh) {
@@ -105,26 +108,30 @@ bool FileIO::saveOBJ(const Data &myCloud, const QFileInfo &fileInfo) {
 }
 
 // There is no pcl::io::savePolygonFilePCD, so mesh can not be saved.
-bool FileIO::savePCD(const Data &myCloud, const QFileInfo &fileInfo, bool isBinaryFormat) {
+bool FileIO::savePCD(const Data &myCloud, const QFileInfo &fileInfo,
+                     bool isBinaryFormat) {
   if (!myCloud.isValid) return false;
   string filePath = fromQString(fileInfo.filePath());
   int status = pcl::io::savePCDFile(filePath, *myCloud.cloud, isBinaryFormat);
   return status == 0;
 }
 
-bool FileIO::saveSTL(const Data &myCloud, const QFileInfo &fileInfo, bool isBinaryFormat) {
+bool FileIO::saveSTL(const Data &myCloud, const QFileInfo &fileInfo,
+                     bool isBinaryFormat) {
   if (!myCloud.hasMesh) return false;
   string filePath = fromQString(fileInfo.filePath());
   return pcl::io::savePolygonFileSTL(filePath, *myCloud.mesh, isBinaryFormat);
 }
 
-bool FileIO::saveVTK(const Data &myCloud, const QFileInfo &fileInfo, bool isBinaryFormat) {
+bool FileIO::saveVTK(const Data &myCloud, const QFileInfo &fileInfo,
+                     bool isBinaryFormat) {
   if (!myCloud.hasMesh) return false;
   string filePath = fromQString(fileInfo.filePath());
   return pcl::io::savePolygonFileVTK(filePath, *myCloud.mesh, isBinaryFormat);
 }
 
-bool FileIO::save(const Data &myCloud, const QFileInfo &fileInfo, bool isBinaryFormat) {
+bool FileIO::save(const Data &myCloud, const QFileInfo &fileInfo,
+                  bool isBinaryFormat) {
   string suffix = fromQString(fileInfo.suffix().toLower());
   if (suffix == "ply") {
     return savePLY(myCloud, fileInfo, isBinaryFormat);

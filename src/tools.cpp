@@ -2,11 +2,9 @@
 
 QTime myTime;
 
-Tools::Tools() {
-}
+Tools::Tools() {}
 
-Tools::~Tools() {
-}
+Tools::~Tools() {}
 
 string getFileName(string file_name) {
   string subname;
@@ -16,14 +14,12 @@ string getFileName(string file_name) {
   return subname;
 }
 
-void timeStart() {
-  myTime.start();
-}
+void timeStart() { myTime.start(); }
 
 QString timeOff() {
   int timediff = myTime.elapsed();
   float f = timediff / 1000.0;
-  QString tr_timediff = QString("%1").arg(f);  //float->QString
+  QString tr_timediff = QString("%1").arg(f);  // float->QString
   return tr_timediff;
 }
 

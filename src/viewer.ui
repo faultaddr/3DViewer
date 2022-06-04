@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>CloudViewerClass</class>
+ <class>Viewer</class>
  <widget class="QMainWindow" name="Viewer">
   <property name="geometry">
    <rect>

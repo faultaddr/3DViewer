@@ -1,18 +1,19 @@
 #include "mesh_processing.h"
-#include <pcl/Vertices.h>
+
 #include <pcl/ModelCoefficients.h>
+#include <pcl/PolygonMesh.h>
+#include <pcl/Vertices.h>
+#include <pcl/common/io.h>
 #include <pcl/features/normal_3d.h>
 #include <pcl/search/kdtree.h>
 #include <pcl/surface/gp3.h>
-#include <pcl/PolygonMesh.h>
+
 #include <vector>
-#include <pcl/common/io.h>
 
 // 计算三角形面积，接收三个角度的 xyz 坐标，返回面积
-double calculateTriangleMeshArea(
-    double x1, double y1, double z1,
-    double x2, double y2, double z2,
-    double x3, double y3, double z3) {
+double calculateTriangleMeshArea(double x1, double y1, double z1, double x2,
+                                 double y2, double z2, double x3, double y3,
+                                 double z3) {
   // Heron's formula
   double a, b, c, q;
   double area;
@@ -36,7 +37,6 @@ double calculatePCLPolygonMeshArea(const pcl::PolygonMesh &mesh) {
   pcl::fromPCLPointCloud2(mesh.cloud, cloud);
   // for each polygon
   for (size_t i = 0; i != mesh.polygons.size(); ++i) {
-
     std::vector<pcl::index_t> vertexIndexes = mesh.polygons[i].vertices;
     int n = vertexIndexes.size();  // n 边形
 
@@ -59,7 +59,8 @@ double calculatePCLPolygonMeshArea(const pcl::PolygonMesh &mesh) {
       y3 = cloud[index3].y;
       z3 = cloud[index3].z;
 
-      polygonArea += calculateTriangleMeshArea(x1, y1, z1, x2, y2, z2, x3, y3, z3);
+      polygonArea +=
+          calculateTriangleMeshArea(x1, y1, z1, x2, y2, z2, x3, y3, z3);
     }
 
     area += polygonArea;
@@ -68,22 +69,26 @@ double calculatePCLPolygonMeshArea(const pcl::PolygonMesh &mesh) {
 }
 
 // Greedy Projection triangulation
-pcl::PolygonMesh triangulationGreedyProjection(pcl::PointCloud<pcl::PointXYZ>::Ptr xyzCloud) {
+pcl::PolygonMesh triangulationGreedyProjection(
+    pcl::PointCloud<pcl::PointXYZ>::Ptr xyzCloud) {
   pcl::NormalEstimation<pcl::PointXYZ, pcl::Normal> normalEstimation;
   pcl::PointCloud<pcl::Normal>::Ptr normals(new pcl::PointCloud<pcl::Normal>);
-  pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(new pcl::search::KdTree<pcl::PointXYZ>);
+  pcl::search::KdTree<pcl::PointXYZ>::Ptr tree(
+      new pcl::search::KdTree<pcl::PointXYZ>);
   tree->setInputCloud(xyzCloud);
   normalEstimation.setInputCloud(xyzCloud);
   normalEstimation.setSearchMethod(tree);
   normalEstimation.setKSearch(20);
   normalEstimation.compute(*normals);
 
-  pcl::PointCloud<pcl::PointNormal>::Ptr cloudWithNormals(new pcl::PointCloud<pcl::PointNormal>);
+  pcl::PointCloud<pcl::PointNormal>::Ptr cloudWithNormals(
+      new pcl::PointCloud<pcl::PointNormal>);
   // 将已获得的点数据和法向数据拼接
   pcl::concatenateFields(*xyzCloud, *normals, *cloudWithNormals);
 
   // another kd-tree for reconstruction
-  pcl::search::KdTree<pcl::PointNormal>::Ptr tree2(new pcl::search::KdTree<pcl::PointNormal>);
+  pcl::search::KdTree<pcl::PointNormal>::Ptr tree2(
+      new pcl::search::KdTree<pcl::PointNormal>);
   tree2->setInputCloud(cloudWithNormals);
 
   // reconstruction
