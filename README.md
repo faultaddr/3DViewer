@@ -1,20 +1,61 @@
-# CloudViewer
+# 3DViewer
+Thanks For [CloudViewer](https://github.com/nightn/CloudViewer), we use the UI of it, which really save my time. The Initial Idea was to fix some known issue of CloudViewer, But I found that the data structure && code design is a disaster，It is really sucks. So I decided to refactor the code to make a retrofit.
+---
 
-<img  src="http://nightn.com/2017/04/15/cloudviewer/img/%E7%95%8C%E9%9D%A2%E4%BB%8B%E7%BB%8D%E5%B8%A6%E6%A0%87%E5%8F%B7.png" width="750" align="center" />
+<img  src="https://s1.ax1x.com/2022/06/04/XduaBq.png" width="750" align="center" />
 
 Description
 -----------
-The CloudViewer is a standalone, tiny, cross-platform point cloud visualization desktop software powered by [PCL](https://github.com/PointCloudLibrary/pcl) and [Qt](https://www.qt.io/).
+The 3DViewer is a standalone, tiny, cross-platform point cloud visualization desktop software powered by [PCL](https://github.com/PointCloudLibrary/pcl) and [Qt](https://www.qt.io/).
 
-You can learn more from this [document](https://github.com/nightn/CloudViewer/tree/master/doc/cloudviewer-detail-zh.md) (only Chinese version until now).
+Usage
+-----------
+If you want to visualize a 3d model which woule like to be pointcloud or mesh. Then u cloud use the 3DViewer, which designed for light usage for 3D Researchers, The most useful function for me is visualize multiple 3D models in different render window. This makes it easier to compare effects of our deep learning model.
+
+We support various model format:
+- ply
+- pcd
+- stl
+- vtk
+- obj
+
+Download
+---------
+For Linux: (wait for uploading)
+
+For Windows: (is comming)
+
+For Mac: (is comming)
 
 Compiling
 ---------
-Please refer to the platform specific tutorials (Chinese):
- - [Microsoft Windows](https://github.com/nightn/CloudViewer/tree/master/doc/compiling-cloudviewer-windows.md)
- - [Linux](https://github.com/nightn/CloudViewer/tree/master/doc/compiling-cloudviewer-linux.md)
+- Linux:
+    - install the qt5.15
+    - compile && install vtk 9.1
+    - compile && install pcl 1.12.1
+    - mkdir build && cd build && cmake .. && make -j4 && ./src/3DViewer
 
-Issues
-------
-Please use the [Github issue tracker](https://github.com/nightn/CloudViewer/issues) for all bugs and feature requests.
+- Windows:
+    - I believe that no one wants to use windows, If U are using it now, just wait until the day 3DViewer would compile on it.
 
+
+
+## Maintainers
+
+[@faultaddr](https://github.com/faultaddr)
+
+## Star History
+
+[![Star History Chart](https://api.star-history.com/svg?repos=faultaddr/3DViewer&type=Date)](https://star-history.com/#bytebase/star-history&Date)
+
+## Contributing
+
+Feel free to dive in! [open an issue](https://github.com/faultaddr/3DViewer/issues/new) or submit PRs.
+
+
+3DViewer follows the  [Contributor Covenant](http://contributor-covenant.org/version/1/3/0/) Code of Conduct.
+
+
+## License
+
+[MIT](LICENSE) © Yunyi Pan

@@ -39,10 +39,10 @@ Viewer::Viewer(QWidget *parent) : QMainWindow(parent) {
   QObject::connect(ui.wireframeAction, &QAction::triggered, this,
                    &Viewer::convertWireframe);
   // Option (connect)
-  ui.windowsThemeAction->setData(QVariant(CLOUDVIEWER_THEME_WINDOWS));
-  ui.darculaThemeAction->setData(QVariant(CLOUDVIEWER_THEME_DARCULA));
-  ui.englishAction->setData(QVariant(CLOUDVIEWER_LANG_ENGLISH));
-  ui.chineseAction->setData(QVariant(CLOUDVIEWER_LANG_CHINESE));
+  ui.windowsThemeAction->setData(QVariant(VIEWER_THEME_WINDOWS));
+  ui.darculaThemeAction->setData(QVariant(VIEWER_THEME_DARCULA));
+  ui.englishAction->setData(QVariant(VIEWER_LANG_ENGLISH));
+  ui.chineseAction->setData(QVariant(VIEWER_LANG_CHINESE));
   connect(ui.windowsThemeAction, SIGNAL(triggered()), this,
           SLOT(changeTheme()));
   connect(ui.darculaThemeAction, SIGNAL(triggered()), this,
@@ -185,8 +185,8 @@ void Viewer::clear() {
   //输出窗口
   consoleLog("Clear", "All point clouds", "", "");
 
-  setWindowTitle("viewer");  //更新窗口标题
-  ShowModel();               //更新显示
+  setWindowTitle("3DViewer");  //更新窗口标题
+  ShowModel();                 //更新显示
 }
 
 // Save point cloud
@@ -233,7 +233,7 @@ void Viewer::save() {
 
   consoleLog("Save", saveFileName, saveFilePath, "Single save");
 
-  setWindowTitle(saveFilePath + " - viewer");
+  setWindowTitle(saveFilePath + " - 3DViewer");
   QMessageBox::information(
       this, tr("save point cloud file"),
       toQString("Save " + saveFileNameStd + " successfully!"));
@@ -291,7 +291,7 @@ void Viewer::savemulti(const QFileInfo &fileInfo, bool isSaveBinary) {
   mycloud.filePath = fromQString(saveFilePath);
   mycloud.fileName = subname;
 
-  setWindowTitle(saveFilePath + " - viewer");
+  setWindowTitle(saveFilePath + " - 3DViewer");
   QMessageBox::information(this, tr("save point cloud file"),
                            toQString("Save " + subname + " successfully!"));
 }
@@ -338,7 +338,7 @@ void Viewer::initial() {
   LOG(INFO) << "initial ";
   //界面初始化
   setWindowIcon(QIcon(tr(":/Resources/images/icon.png")));
-  setWindowTitle(tr("viewer"));
+  setWindowTitle(tr("3DViewer"));
 
   //点云初始化
   mycloud.cloud.reset(new PointCloudT);
@@ -370,7 +370,7 @@ void Viewer::initial() {
   setConsoleTable();
 
   // 输出窗口
-  consoleLog("Software start", "viewer", "Welcome to use viewer", "Nightn");
+  consoleLog("Software start", "viewer", "Welcome to use viewer", "faultaddr");
 
   // 设置背景颜色为 dark
   viewer->setBackgroundColor(30 / 255.0, 30 / 255.0, 30 / 255.0);
@@ -428,14 +428,15 @@ void Viewer::about() {
   AboutWin *aboutwin = new AboutWin(this);
   aboutwin->setModal(true);
   aboutwin->show();
-  consoleLog("About", "Nightn", "http://nightn.com", "Welcome to my blog!");
+  consoleLog("About", "faultaddr", "http://faultaddr.com",
+             "Welcome to my blog!");
 }
 
 //帮助
 void Viewer::help() {
   QDesktopServices::openUrl(
-      QUrl(QLatin1String("http://nightn.com/cloudviewer")));
-  consoleLog("Help", "Cloudviewer help", "http://nightn.com/cloudviewer", "");
+      QUrl(QLatin1String("http://faultaddr.com/3DViewer")));
+  consoleLog("Help", "3DViewer help", "http://faultaddr.com/3DViewer", "");
 }
 
 //绘制基本图形
@@ -484,7 +485,7 @@ void Viewer::changeTheme() {
   QString qss;
 
   switch (theme) {
-    case CLOUDVIEWER_THEME_WINDOWS: {
+    case VIEWER_THEME_WINDOWS: {
       qss = windows_qss;
       for (int i = 0; i != mycloud_vec.size(); i++) {
         if (ui.dataTree->topLevelItem(i)->textColor(0) == colorLight) {
@@ -495,7 +496,7 @@ void Viewer::changeTheme() {
       consoleLog("Change theme", "Windows theme", "", "");
       break;
     }
-    case CLOUDVIEWER_THEME_DARCULA: {
+    case VIEWER_THEME_DARCULA: {
       qss = darcula_qss;
       for (int i = 0; i != mycloud_vec.size(); i++) {
         if (ui.dataTree->topLevelItem(i)->textColor(0) == colorDark) {
@@ -517,11 +518,11 @@ void Viewer::changeLanguage() {
   int language = (int)v.value<int>();
 
   switch (language) {
-    case CLOUDVIEWER_LANG_ENGLISH: {
+    case VIEWER_LANG_ENGLISH: {
       consoleLog("Change language", "English", "", "");
       break;
     }
-    case CLOUDVIEWER_LANG_CHINESE: {
+    case VIEWER_LANG_CHINESE: {
       consoleLog("Change language", "Chinese",
                  "Doesn't support Chinese temporarily", "");
       break;
@@ -937,9 +938,9 @@ void Viewer::popMenu(const QPoint &) {
   QAction pointModeAction("Set point mode", this);
   QAction meshModeAction("Set mesh mode", this);
   QAction pointMeshModeAction("Set point+mesh mode", this);
-  pointModeAction.setData(QVariant(CLOUDVIEWER_MODE_POINT));
-  meshModeAction.setData(QVariant(CLOUDVIEWER_MODE_MESH));
-  pointMeshModeAction.setData(QVariant(CLOUDVIEWER_MODE_POINT_MESH));
+  pointModeAction.setData(QVariant(VIEWER_MODE_POINT));
+  meshModeAction.setData(QVariant(VIEWER_MODE_MESH));
+  pointMeshModeAction.setData(QVariant(VIEWER_MODE_POINT_MESH));
 
   pointModeAction.setCheckable(true);
   meshModeAction.setCheckable(true);
@@ -1120,17 +1121,17 @@ void Viewer::setRenderingMode() {
   string modeStr;
 
   switch (mode) {
-    case CLOUDVIEWER_MODE_POINT: {
+    case VIEWER_MODE_POINT: {
       modeStr = "point";
       consoleLog("Point Mode", "Point clouds selected", "", "");
       break;
     }
-    case CLOUDVIEWER_MODE_MESH: {
+    case VIEWER_MODE_MESH: {
       modeStr = "mesh";
       consoleLog("Mesh Mode", "Point clouds selected", "", "");
       break;
     }
-    case CLOUDVIEWER_MODE_POINT_MESH: {
+    case VIEWER_MODE_POINT_MESH: {
       modeStr = "point+mesh";
       consoleLog("Point+Mesh Mode", "Point clouds selected", "", "");
       break;

@@ -56,3 +56,4 @@ cmake-build-release/
 doc/
 .idea/
 .vscode/
+log_*.txt

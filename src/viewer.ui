@@ -29,7 +29,7 @@
    </size>
   </property>
   <property name="windowTitle">
-   <string>CloudViewer</string>
+   <string>3DViewer</string>
   </property>
   <property name="styleSheet">
    <string notr="true"/>
@@ -97,7 +97,7 @@
       <string>Basic shapes</string>
      </property>
      <property name="icon">
-      <iconset resource="cloudviewer.qrc">
+      <iconset resource="viewer.qrc">
        <normaloff>:/Resources/images/shape.png</normaloff>:/Resources/images/shape.png</iconset>
      </property>
      <addaction name="sphereAction"/>
@@ -122,7 +122,7 @@
       <string>Theme</string>
      </property>
      <property name="icon">
-      <iconset resource="cloudviewer.qrc">
+      <iconset resource="viewer.qrc">
        <normaloff>:/Resources/images/theme.png</normaloff>:/Resources/images/theme.png</iconset>
      </property>
      <addaction name="windowsThemeAction"/>
@@ -133,7 +133,7 @@
       <string>Language</string>
      </property>
      <property name="icon">
-      <iconset resource="cloudviewer.qrc">
+      <iconset resource="viewer.qrc">
        <normaloff>:/Resources/images/language.png</normaloff>:/Resources/images/language.png</iconset>
      </property>
      <addaction name="englishAction"/>
@@ -845,7 +845,7 @@
   </widget>
   <action name="openAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/open.png</normaloff>:/Resources/images/open.png</iconset>
    </property>
    <property name="text">
@@ -860,7 +860,7 @@
   </action>
   <action name="saveAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/save.png</normaloff>:/Resources/images/save.png</iconset>
    </property>
    <property name="text">
@@ -880,7 +880,7 @@
   </action>
   <action name="cubeAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/cube.png</normaloff>:/Resources/images/cube.png</iconset>
    </property>
    <property name="text">
@@ -892,7 +892,7 @@
   </action>
   <action name="helpAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/help.png</normaloff>:/Resources/images/help.png</iconset>
    </property>
    <property name="text">
@@ -904,7 +904,7 @@
   </action>
   <action name="aboutAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/about.png</normaloff>:/Resources/images/about.png</iconset>
    </property>
    <property name="text">
@@ -916,7 +916,7 @@
   </action>
   <action name="changeAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/change.png</normaloff>:/Resources/images/change.png</iconset>
    </property>
    <property name="text">
@@ -928,7 +928,7 @@
   </action>
   <action name="exitAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/exit.png</normaloff>:/Resources/images/exit.png</iconset>
    </property>
    <property name="text">
@@ -940,7 +940,7 @@
   </action>
   <action name="pointcolorAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/pointcolor.png</normaloff>:/Resources/images/pointcolor.png</iconset>
    </property>
    <property name="text">
@@ -949,7 +949,7 @@
   </action>
   <action name="bgcolorAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/bgcolor.png</normaloff>:/Resources/images/bgcolor.png</iconset>
    </property>
    <property name="text">
@@ -958,7 +958,7 @@
   </action>
   <action name="mainviewAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/zhengshi.png</normaloff>:/Resources/images/zhengshi.png</iconset>
    </property>
    <property name="text">
@@ -967,7 +967,7 @@
   </action>
   <action name="leftviewAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/zuoshi.png</normaloff>:/Resources/images/zuoshi.png</iconset>
    </property>
    <property name="text">
@@ -976,7 +976,7 @@
   </action>
   <action name="topviewAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/fushi.png</normaloff>:/Resources/images/fushi.png</iconset>
    </property>
    <property name="text">
@@ -1029,7 +1029,7 @@
   </action>
   <action name="clearAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/clear.png</normaloff>:/Resources/images/clear.png</iconset>
    </property>
    <property name="text">
@@ -1038,7 +1038,7 @@
   </action>
   <action name="addAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/add.png</normaloff>:/Resources/images/add.png</iconset>
    </property>
    <property name="text">
@@ -1047,7 +1047,7 @@
   </action>
   <action name="sphereAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/sphere.png</normaloff>:/Resources/images/sphere.png</iconset>
    </property>
    <property name="text">
@@ -1056,7 +1056,7 @@
   </action>
   <action name="cylinderAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/cylinder.png</normaloff>:/Resources/images/cylinder.png</iconset>
    </property>
    <property name="text">
@@ -1065,7 +1065,7 @@
   </action>
   <action name="meshsurfaceAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/mesh.png</normaloff>:/Resources/images/mesh.png</iconset>
    </property>
    <property name="text">
@@ -1074,7 +1074,7 @@
   </action>
   <action name="wireframeAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/frame.png</normaloff>:/Resources/images/frame.png</iconset>
    </property>
    <property name="text">
@@ -1103,7 +1103,7 @@
   </action>
   <action name="saveBinaryAction">
    <property name="icon">
-    <iconset resource="cloudviewer.qrc">
+    <iconset resource="viewer.qrc">
      <normaloff>:/Resources/images/saveBinary.png</normaloff>:/Resources/images/saveBinary.png</iconset>
    </property>
    <property name="text">
@@ -1133,7 +1133,7 @@
   </customwidget>
  </customwidgets>
  <resources>
-  <include location="cloudviewer.qrc"/>
+  <include location="viewer.qrc"/>
  </resources>
  <connections/>
 </ui>

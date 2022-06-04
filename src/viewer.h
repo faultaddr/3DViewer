@@ -1,5 +1,5 @@
-#ifndef CLOUDVIEWER_H
-#define CLOUDVIEWER_H
+#ifndef VIEWER_H
+#define VIEWER_H
 
 // for solving error: no override found for 'vtkRenderWindow'
 #include <vtkAutoInit.h>
@@ -57,15 +57,15 @@
 typedef pcl::PointXYZRGBA PointT;
 typedef pcl::PointCloud<PointT> PointCloudT;
 
-const int CLOUDVIEWER_THEME_WINDOWS = 0;
-const int CLOUDVIEWER_THEME_DARCULA = 1;
+const int VIEWER_THEME_WINDOWS = 0;
+const int VIEWER_THEME_DARCULA = 1;
 
-const int CLOUDVIEWER_LANG_ENGLISH = 0;
-const int CLOUDVIEWER_LANG_CHINESE = 1;
+const int VIEWER_LANG_ENGLISH = 0;
+const int VIEWER_LANG_CHINESE = 1;
 
-const int CLOUDVIEWER_MODE_POINT = 0;
-const int CLOUDVIEWER_MODE_MESH = 1;
-const int CLOUDVIEWER_MODE_POINT_MESH = 2;
+const int VIEWER_MODE_POINT = 0;
+const int VIEWER_MODE_MESH = 1;
+const int VIEWER_MODE_POINT_MESH = 2;
 
 using std::map;
 using std::string;
@@ -187,4 +187,4 @@ class Viewer : public QMainWindow {
   void UpdateScreen();
 };
 
-#endif  // CLOUDVIEWER_H
+#endif  // VIEWER_H
