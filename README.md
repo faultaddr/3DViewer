@@ -1,14 +1,14 @@
 # 3DViewer
+-----
 Thanks For [CloudViewer](https://github.com/nightn/CloudViewer), we use the UI of it, which really save my time. The Initial Idea was to fix some known issue of CloudViewer, But I found that the data structure && code design is a disaster，It is really sucks. So I decided to refactor the code to make a retrofit.
----
 
 <img  src="https://s1.ax1x.com/2022/06/04/XduaBq.png" width="750" align="center" />
 
-Description
+# Description
 -----------
 The 3DViewer is a standalone, tiny, cross-platform point cloud visualization desktop software powered by [PCL](https://github.com/PointCloudLibrary/pcl) and [Qt](https://www.qt.io/).
 
-Usage
+# Usage
 -----------
 If you want to visualize a 3d model which woule like to be pointcloud or mesh. Then u cloud use the 3DViewer, which designed for light usage for 3D Researchers, The most useful function for me is visualize multiple 3D models in different render window. This makes it easier to compare effects of our deep learning model.
 
@@ -19,7 +19,7 @@ We support various model format:
 - vtk
 - obj
 
-Download
+# Download
 ---------
 For Linux: (wait for uploading)
 
@@ -27,7 +27,7 @@ For Windows: (is comming)
 
 For Mac: (is comming)
 
-Compiling
+# Compiling
 ---------
 - Linux:
     - install the qt5.15
