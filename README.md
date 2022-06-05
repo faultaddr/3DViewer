@@ -17,7 +17,7 @@ We support various model format:
 - obj
 
 # Download
-For Linux: (wait for uploading)
+For Linux: [version: 0.0.1](https://github.com/faultaddr/3DViewer/releases/download/0.0.1/3DViewer)
 
 For Windows: (is comming)
 
