@@ -52,7 +52,7 @@
    </property>
    <layout class="QHBoxLayout" name="horizontalLayout_5">
     <item>
-     <widget class="QVTKOpenGLWidget" name="screen" native="true">
+     <widget class="QVTKOpenGLNativeWidget" name="screen" native="true">
       <property name="minimumSize">
        <size>
         <width>600</width>
@@ -331,7 +331,7 @@
    <widget class="QWidget" name="dockWidgetContents_5">
     <layout class="QVBoxLayout" name="verticalLayout_3">
      <item>
-      <widget class="QTreeWidget" name="dataTree">
+      <widget class="CustomTreeWidget" name="dataTree">
        <property name="minimumSize">
         <size>
          <width>0</width>
@@ -868,9 +868,14 @@
  <layoutdefault spacing="6" margin="11"/>
  <customwidgets>
   <customwidget>
-   <class>QVTKOpenGLWidget</class>
+   <class>QVTKOpenGLNativeWidget</class>
    <extends>QWidget</extends>
-   <header>QVTKOpenGLWidget.h</header>
+   <header>QVTKOpenGLNativeWidget.h</header>
+  </customwidget>
+  <customwidget>
+    <class>CustomTreeWidget</class>
+    <extends>QTreeWidget</extends>
+    <header>custom_tree_widget.h</header>
   </customwidget>
  </customwidgets>
  <resources>

@@ -6,7 +6,7 @@
 // VTK_MODULE_INIT(vtkRenderingOpenGL2);
 // VTK_MODULE_INIT(vtkInteractionStyle);
 
-#include <QVTKOpenGLWidget.h>
+#include <QVTKOpenGLNativeWidget.h>
 #include <pcl/ModelCoefficients.h>
 #include <pcl/PolygonMesh.h>
 #include <pcl/io/obj_io.h>
@@ -34,12 +34,14 @@
 #include <QMenu>
 #include <QMenuBar>
 #include <QMessageBox>
+#include <QMimeData>
 #include <QMouseEvent>
 #include <QStatusBar>
 #include <QString>
 #include <QTextEdit>
 #include <QTime>
 #include <QToolBar>
+#include <QTreeWidgetItem>
 #include <QUrl>
 #include <QVBoxLayout>
 #include <QtWidgets/QMainWindow>
@@ -48,6 +50,7 @@
 #include <vector>
 
 #include "about_win.h"
+#include "custom_tree_widget.h"
 #include "data.h"
 #include "file_io.h"
 #include "gbk.h"
@@ -79,6 +82,10 @@ class Viewer : public QMainWindow {
  public:
   Viewer(QWidget* parent = 0);
   ~Viewer();
+
+ protected:
+  void dragEnterEvent(QDragEnterEvent* event) override;
+  void dropEvent(QDropEvent* event) override;
 
  private:
   Ui::Viewer ui;
@@ -184,6 +191,7 @@ class Viewer : public QMainWindow {
   void setRenderingMode();
 
   void popMenuInConsole(const QPoint&);
+  void ReleaseMouseOnScreen(QMouseEvent* event);
   void clearConsole();
   void enableConsole();
   void disableConsole();

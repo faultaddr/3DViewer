@@ -1,7 +1,5 @@
 #include "viewer.h"
 
-#include <QTreeWidgetItem>
-
 Viewer::Viewer(QWidget *parent) : QMainWindow(parent) {
   ui.setupUi(this);
 
@@ -54,23 +52,7 @@ Viewer::Viewer(QWidget *parent) : QMainWindow(parent) {
   QObject::connect(ui.helpAction, &QAction::triggered, this, &Viewer::help);
 
   /***** Slots connection of RGB widget *****/
-  // Random color (connect)
-  // connect(ui.colorBtn, SIGNAL(clicked()), this, SLOT(colorBtnPressed()));
-  // // Connection between RGB slider and RGB value (connect)
-  // connect(ui.rSlider, SIGNAL(valueChanged(int)), this,
-  //         SLOT(rSliderChanged(int)));
-  // connect(ui.gSlider, SIGNAL(valueChanged(int)), this,
-  //         SLOT(gSliderChanged(int)));
-  // connect(ui.bSlider, SIGNAL(valueChanged(int)), this,
-  //         SLOT(bSliderChanged(int)));
-  // // RGB slider released (connect)
-  // connect(ui.rSlider, SIGNAL(sliderReleased()), this,
-  //         SLOT(RGBsliderReleased()));
-  // connect(ui.gSlider, SIGNAL(sliderReleased()), this,
-  //         SLOT(RGBsliderReleased()));
-  // connect(ui.bSlider, SIGNAL(sliderReleased()), this,
-  //         SLOT(RGBsliderReleased()));
-  // // Change size of cloud (connect)
+  // Change size of cloud (connect)
   connect(ui.renderNum, SIGNAL(currentIndexChanged(int)), this,
           SLOT(RenderNumChanged(int)));
   connect(ui.pSlider, SIGNAL(valueChanged(int)), this,
@@ -92,13 +74,50 @@ Viewer::Viewer(QWidget *parent) : QMainWindow(parent) {
   connect(ui.dataTree, SIGNAL(itemChanged(QTreeWidgetItem *, int)), this,
           SLOT(TreeItemChanged(QTreeWidgetItem *, int)));
 
+
   connect(ui.consoleTable, SIGNAL(customContextMenuRequested(const QPoint &)),
           this, SLOT(popMenuInConsole(const QPoint &)));
+
+
   // Initialization
+  setAcceptDrops(true);
   initial();
 }
 
 Viewer::~Viewer() {}
+
+void Viewer::dragEnterEvent(QDragEnterEvent *event) {
+  LOG(INFO)<<"dragEnterEvent";
+  if (event->mimeData()->hasUrls()) {
+    event->acceptProposedAction();
+  }else if(event->mimeData()->hasFormat("application/x-qabstractitemmodeldatalist")) {
+    event->setDropAction(Qt::MoveAction);
+    event->accept();
+  } else {
+    event->ignore();
+  }
+}
+
+void Viewer::dropEvent(QDropEvent *event)
+{
+  LOG(INFO)<<"dropEvent";
+  if(event->mimeData()->hasUrls())        //判断放的类型
+  {
+    QList<QUrl> url_list = event->mimeData()->urls();
+    QStringList file_path_list;
+    for(auto & url: url_list)
+    {
+      if(url.isLocalFile()){
+        file_path_list.push_back(url.toLocalFile());
+      }
+    }
+    doOpen(file_path_list);
+  }
+  else
+  {
+    event->ignore();
+  }
+}
 
 void Viewer::doOpen(const QStringList &filePathList) {
   // Open point cloud file one by one
@@ -379,6 +398,8 @@ void Viewer::initial() {
   viewer->setBackgroundColor(30 / 255.0, 30 / 255.0, 30 / 255.0);
   window_to_image_filter = vtkSmartPointer<vtkWindowToImageFilter>::New();
   window_to_image_filter->SetInput(ui.screen->renderWindow());
+  ui.screen->setAcceptDrops(true);
+  connect(ui.screen,SIGNAL(mouseEvent(QMouseEvent *)),this,SLOT(ReleaseMouseOnScreen(QMouseEvent * )));
 }
 
 //显示点云
@@ -400,6 +421,8 @@ void Viewer::ShowModel() {
   UpdateScreen();
   CaptureModel();
 }
+
+
 
 //添加点云到viewer,并显示点云
 void Viewer::AddModel(int view_port) {
@@ -556,70 +579,6 @@ void Viewer::ChangeLanguage() {
 /*********************************************/
 /*****************界面槽函数*****************/
 /********************************************/
-// void Viewer::colorBtnPressed() {
-//   QList<QTreeWidgetItem *> itemList = ui.dataTree->selectedItems();
-//   int selected_item_count = ui.dataTree->selectedItems().size();
-//   // 如果未选中任何点云，则对视图窗口中的所有点云进行着色
-//   if (selected_item_count == 0) {
-//     for (int i = 0; i != mycloud_vec.size(); i++) {
-//       for (int j = 0; j != mycloud_vec[i].cloud->points.size(); j++) {
-//         mycloud_vec[i].cloud->points[j].r =
-//             255 * (1024 * rand() / (RAND_MAX + 1.0f));
-//         mycloud_vec[i].cloud->points[j].g =
-//             255 * (1024 * rand() / (RAND_MAX + 1.0f));
-//         mycloud_vec[i].cloud->points[j].b =
-//             255 * (1024 * rand() / (RAND_MAX + 1.0f));
-//       }
-//     }
-
-//     // 输出窗口
-//     consoleLog("Random color", "All point clous", "", "");
-
-//   } else {
-//     for (int i = 0; i != selected_item_count; i++) {
-//       int cloud_id = ui.dataTree->indexOfTopLevelItem(itemList[i]);
-//       for (int j = 0; j != mycloud_vec[cloud_id].cloud->size(); j++) {
-//         mycloud_vec[cloud_id].cloud->points[j].r = red;
-//         mycloud_vec[cloud_id].cloud->points[j].g =
-//             255 * (1024 * rand() / (RAND_MAX + 1.0f));
-//         mycloud_vec[cloud_id].cloud->points[j].b =
-//             255 * (1024 * rand() / (RAND_MAX + 1.0f));
-//       }
-//     }
-
-//     // 输出窗口
-//     consoleLog("Random color", "Point clouds selected", "", "");
-//   }
-//   ShowModel();
-// }
-
-// void Viewer::RGBsliderReleased() {
-//   QList<QTreeWidgetItem *> itemList = ui.dataTree->selectedItems();
-//   int selected_item_count = ui.dataTree->selectedItems().size();
-//   // 如果未选中任何点云，则对视图窗口中的所有点云进行着色
-//   if (selected_item_count == 0) {
-//     for (int i = 0; i != mycloud_vec.size(); i++) {
-//       mycloud_vec[i].setPointColor(red, green, blue);
-//     }
-
-//     // 输出窗口
-//     consoleLog("Change cloud color", "All point clouds",
-//                QString::number(red) + " " + QString::number(green) + " " +
-//                    QString::number(blue),
-//                "");
-//   } else {
-//     for (int i = 0; i != selected_item_count; i++) {
-//       int cloud_id = ui.dataTree->indexOfTopLevelItem(itemList[i]);
-//       mycloud_vec[cloud_id].setPointColor(red, green, blue);
-//     }
-//     // 输出窗口
-//     consoleLog("Change cloud color", "Point clouds selected",
-//                QString::number(red) + " " + QString::number(green) + " " +
-//                    QString::number(blue),
-//                "");
-//   }
-//   ShowModel();
-// }
 
 // //设置所有点云的尺寸
 void Viewer::PointSizeSliderReleased() {
@@ -654,20 +613,6 @@ void Viewer::PointSizeSliderReleased() {
 
 void Viewer::PointSizeSliderChanged(int value) { p = value; }
 
-// void Viewer::rSliderChanged(int value) {
-//   red = value;
-//   ui.rLCD->display(value);
-// }
-
-// void Viewer::gSliderChanged(int value) {
-//   green = value;
-//   ui.gLCD->display(value);
-// }
-
-// void Viewer::bSliderChanged(int value) {
-//   blue = value;
-//   ui.bLCD->display(value);
-// }
 void Viewer::RenderNumChanged(int index) {
   LOG(INFO) << "RenderNumChanged";
   switch (index) {
@@ -769,11 +714,6 @@ void Viewer::pointcolorChanged() {
                      QString::number(color.blue()),
                  "");
     }
-    //颜色的改变同步至RGB停靠窗口
-    // ui.rSlider->setValue(color.red());
-    // ui.gSlider->setValue(color.green());
-    // ui.bSlider->setValue(color.blue());
-
     ShowModel();
   }
 }
@@ -960,6 +900,13 @@ void Viewer::popMenuInConsole(const QPoint &) {
   menu.exec(QCursor::pos());  //在当前鼠标位置显示
 }
 
+void Viewer::ReleaseMouseOnScreen(QMouseEvent *event) {
+  LOG(INFO)<<"ReleaseMouseOnScreen";
+  if(ui.dataTree->IsMousePressedFromDataTree()){
+    LOG(INFO)<<"ReleaseMouseOnScreen IsMousePressedFromDataTree x:"<<event->x()<<", y:"<<event->y();
+  }
+}
+
 // 清空 consoleTable
 void Viewer::clearConsole() {
   ui.consoleTable->clearContents();
@@ -1133,21 +1080,13 @@ void Viewer::deleteItem() {
   // 随着迭代次数而改变，因此循环条件要设置为固定大小的 selected_item_count
   int selected_item_count = ui.dataTree->selectedItems().size();
   for (int i = 0; i != selected_item_count; i++) {
-    // QTreeWidgetItem* curItem = ui.dataTree->currentItem();
-    // QMessageBox::information(this, "itemList's size",
-    // QString::number(ui.dataTree->selectedItems().size()));
     QTreeWidgetItem *curItem = itemList[i];
     QString name = curItem->text(0);
     int id = ui.dataTree->indexOfTopLevelItem(curItem);
-    // QMessageBox::information(this, "information", "curItem: " + name + " " +
-    // QString::number(id));
     auto it = mycloud_vec.begin() + ui.dataTree->indexOfTopLevelItem(curItem);
     // 删除点云之前，将其点的数目保存
     int delete_points = (*it).cloud->points.size();
     it = mycloud_vec.erase(it);
-    // QMessageBox::information(this, "information",
-    // QString::number(delete_points) + " " +
-    // QString::number(mycloud_vec.size()));
 
     total_points -= delete_points;
     setPropertyTable();
