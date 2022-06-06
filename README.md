@@ -7,7 +7,7 @@ Thanks For [CloudViewer](https://github.com/nightn/CloudViewer), we use the UI o
 The 3DViewer is a standalone, tiny, cross-platform point cloud visualization desktop software powered by [PCL](https://github.com/PointCloudLibrary/pcl) and [Qt](https://www.qt.io/).
 
 # Usage
-If you want to visualize a 3d model which woule like to be pointcloud or mesh. Then u cloud use the 3DViewer, which designed for light usage for 3D Researchers, The most useful function for me is visualize multiple 3D models in different render window. This makes it easier to compare effects of our deep learning model.
+If you want to visualize a 3d model which would like to be pointcloud or mesh. Then u could use the 3DViewer, which designed for light usage for 3D Researchers, The most useful function for me is visualize multiple 3D models in different render window. This makes it easier to compare effects of our deep learning model.
 
 We support various model format:
 - ply
