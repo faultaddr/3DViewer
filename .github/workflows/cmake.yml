@@ -19,6 +19,6 @@ jobs:
 
     steps:
     - name: PCL CMake Action
-      uses: faultaddr/PCL-CMake-Action@0.0.1
+      uses: faultaddr/PCL-CMake-Action@0.0.2
 
       
