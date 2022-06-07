@@ -25,9 +25,10 @@ For Mac: (is comming)
 
 # Compiling
 - Linux:
-    - install the qt5.15
-    - compile && install vtk 9.1
-    - compile && install pcl 1.12.1
+    - git clone --recurse-submodules https://github.com/chaconinc/MainProject
+    - install the qt 5.15
+    - compile && install vtk 9.1 (using ccmake to choose QT version)
+    - compile && install pcl 1.12.1 (using ccmake to choose QT version)
     - mkdir build && cd build && cmake .. && make -j4 && ./src/3DViewer
 
 - Windows:
