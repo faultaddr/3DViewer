@@ -5,7 +5,7 @@ project(3DViewer)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # find package
 find_package(Qt5 REQUIRED Widgets)
-find_package(PCL 1.12.1 REQUIRED)
+find_package(PCL REQUIRED)
 add_subdirectory(log)
 include_directories(${PCL_INCLUDE_DIRS})
 link_directories(${PCL_LIBRARY_DIRS})
