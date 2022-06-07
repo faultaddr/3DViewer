@@ -25,7 +25,7 @@ For Mac: (is comming)
 
 # Compiling
 - Linux:
-    - git clone --recurse-submodules https://github.com/chaconinc/MainProject
+    - git clone --recurse-submodules https://github.com/fauladdr/3DViewer.git
     - install the qt 5.15
     - compile && install vtk 9.1 (using ccmake to choose QT version)
     - compile && install pcl 1.12.1 (using ccmake to choose QT version)
