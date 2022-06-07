@@ -19,7 +19,7 @@ jobs:
 
     steps:
     - name: PCL CMake Action
-      uses: faultaddr/PCL-CMake-Action@0.0.2
+      uses: faultaddr/PCL-CMake-Action@0.0.3
       with:
         dir: '${{ github.workspace }}'
 
