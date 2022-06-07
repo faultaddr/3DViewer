@@ -43,7 +43,7 @@ jobs:
     - name: Install VTK
       run: sudo apt-get install libvtk9-qt-dev
     - name: Install PCL
-      run:  sudo apt-get install libpcl1-dev
+      run: sudo apt-get install libpcl-dev
 
     - name: Configure CMake
       # Configure CMake in a 'build' subdirectory. `CMAKE_BUILD_TYPE` is only required if you are using a single-configuration generator such as make.
