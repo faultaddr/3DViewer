@@ -96,12 +96,14 @@ jobs:
         extensions: 'h,cpp,c'
         clangFormatVersion: 12
         inplace: True
+        style: chromium
     - name: format-result-push
-      uses: EndBug/add-and-commit@v4
+      uses: EndBug/add-and-commit@v9
       with:
-        author_name: Clang Robot
-        author_email: robot@faultaddr.com
-        message: 'format: Committing clang-format changes'
+          author_name: robot
+          author_email: robot@faultaddr.com
+          message: 'format: clang format'
+          add: '*'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       
