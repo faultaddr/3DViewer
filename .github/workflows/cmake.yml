@@ -13,7 +13,7 @@ env:
 jobs:
   analyze:
     name: Analyze
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-22.04
     permissions:
       actions: read
       contents: read
@@ -67,7 +67,7 @@ jobs:
       uses: jurplel/install-qt-action@v2
       with:
         version: '5.15.2'
-        host: 'ubuntu-latest'
+        host: 'ubuntu-22.04'
         target: 'desktop'
         dir: '${{ github.workspace }}/qt5/'
         install-deps: 'true'
