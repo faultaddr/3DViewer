@@ -88,15 +88,16 @@ jobs:
       run: cmake --build ${{github.workspace}}/build --config ${{env.BUILD_TYPE}}
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v2
-    - name: clang-format-push
-    - uses: DoozyX/clang-format-lint-action@v0.13
+    - name: clang-format
+      uses: DoozyX/clang-format-lint-action@v0.13
       with:
         source: '.'
         exclude: './src/log'
         extensions: 'h,cpp,c'
         clangFormatVersion: 12
         inplace: True
-    - uses: EndBug/add-and-commit@v4
+    - name: format-result-push
+      uses: EndBug/add-and-commit@v4
       with:
         author_name: Clang Robot
         author_email: robot@faultaddr.com
