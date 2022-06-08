@@ -103,7 +103,7 @@ jobs:
           author_name: robot
           author_email: robot@faultaddr.com
           message: 'format: clang format'
-          add: '.*'
+          add: '*'
       env:
         GITHUB_TOKEN: ${{ secrets.ROBOT_SECRET }}
       
