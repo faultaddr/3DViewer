@@ -1,4 +1,8 @@
 # 3DViewer
+
+[![Documentation](https://softacheck.com/app/repository/faultaddr/3DViewer/documentation/badge)](https://softacheck.com/app/docs/faultaddr/3DViewer/)
+[![Softacheck](https://softacheck.com/app/repository/faultaddr/3DViewer/badge)](https://softacheck.com/app/repository/faultaddr/3DViewer/issues)
+
 Thanks For [CloudViewer](https://github.com/nightn/CloudViewer), we use the UI of it, which really save my time. The Initial Idea was to fix some known issue of CloudViewer, But I found that the data structure && code design is a disaster，It is really sucks. So I decided to refactor the code to make a retrofit.
 
 <img  src="https://s1.ax1x.com/2022/06/04/XduaBq.png" width="750" align="center" />
