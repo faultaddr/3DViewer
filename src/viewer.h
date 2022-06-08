@@ -155,7 +155,9 @@ class Viewer : public QMainWindow {
 
   void setConsoleTable();
 
-  void consoleLog(QString operation, QString subname, QString filename,
+  void consoleLog(QString operation,
+                  QString subname,
+                  QString filename,
                   QString note);
 
  public slots:

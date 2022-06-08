@@ -11,7 +11,7 @@ class AboutWin : public QDialog {
   Q_OBJECT
 
  public:
-  AboutWin(QWidget *parent = 0);
+  AboutWin(QWidget* parent = 0);
   ~AboutWin();
 
  private:

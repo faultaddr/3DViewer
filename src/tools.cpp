@@ -14,7 +14,9 @@ string getFileName(string file_name) {
   return subname;
 }
 
-void timeStart() { myTime.start(); }
+void timeStart() {
+  myTime.start();
+}
 
 QString timeOff() {
   int timediff = myTime.elapsed();
@@ -23,19 +25,20 @@ QString timeOff() {
   return tr_timediff;
 }
 
-QString toQString(const string &s) {
+QString toQString(const string& s) {
   QString qs(s.c_str());
   return qs;
 }
 
-string fromQString(const QString &qs) {
+string fromQString(const QString& qs) {
   string s = qs.toUtf8().data();
   return s;
 }
 
 string joinStrVec(const vector<string> v, string splitor) {
   string s = "";
-  if (v.size() == 0) return s;
+  if (v.size() == 0)
+    return s;
   for (int i = 0; i != v.size() - 1; ++i) {
     s += (v[i] + splitor);
   }

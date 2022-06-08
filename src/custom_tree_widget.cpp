@@ -1,19 +1,18 @@
 #include "custom_tree_widget.h"
 
-#include <QLabel>
-#include <QMimeData>
 #include <QByteArray>
+#include <QDebug>
 #include <QDrag>
-#include <QPixmap>
-#include <QImage>
-#include <QPainter>
 #include <QDragEnterEvent>
 #include <QDropEvent>
+#include <QImage>
+#include <QLabel>
+#include <QMimeData>
 #include <QMouseEvent>
-#include <QDebug>
+#include <QPainter>
+#include <QPixmap>
 
-CustomTreeWidget::CustomTreeWidget(QWidget *parent)
-    : QTreeWidget(parent) {
+CustomTreeWidget::CustomTreeWidget(QWidget* parent) : QTreeWidget(parent) {
   this->installEventFilter(this);
   this->setMouseTracking(true);
   this->setAcceptDrops(true);
@@ -24,7 +23,7 @@ void CustomTreeWidget::setNewTreeState(bool state) {
   m_bNewTreeState = state;
 }
 
-void CustomTreeWidget::dragEnterEvent(QDragEnterEvent *event) {
+void CustomTreeWidget::dragEnterEvent(QDragEnterEvent* event) {
   if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
     if (event->source() == this) {
       event->setDropAction(Qt::MoveAction);
@@ -37,7 +36,7 @@ void CustomTreeWidget::dragEnterEvent(QDragEnterEvent *event) {
   }
 }
 
-void CustomTreeWidget::dragMoveEvent(QDragMoveEvent *event) {
+void CustomTreeWidget::dragMoveEvent(QDragMoveEvent* event) {
   if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
     if (event->source() == this) {
       event->setDropAction(Qt::MoveAction);
@@ -48,13 +47,13 @@ void CustomTreeWidget::dragMoveEvent(QDragMoveEvent *event) {
   } else {
     event->ignore();
   }
-
 }
 
-void CustomTreeWidget::dropEvent(QDropEvent *event) {
+void CustomTreeWidget::dropEvent(QDropEvent* event) {
   //    if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
-  //        QByteArray itemData = event->mimeData()->data("application/x-dnditemdata");
-  //        QDataStream dataStream(&itemData, QIODevice::ReadOnly);
+  //        QByteArray itemData =
+  //        event->mimeData()->data("application/x-dnditemdata"); QDataStream
+  //        dataStream(&itemData, QIODevice::ReadOnly);
 
   //        QPixmap pixmap;
   //        QPoint offset;
@@ -76,17 +75,17 @@ void CustomTreeWidget::dropEvent(QDropEvent *event) {
   //        event->ignore();
   //    }
 
-//    qDebug() << "-------dropEvent";
-//    if(m_pNewTreeWidget == nullptr) {
-//        qDebug() << "-------2";
-//        m_pNewTreeWidget = new NewTreeWidget;
-//        m_pNewTreeWidget->resize(200, 300);
-//        m_pNewTreeWidget->move(mapToGlobal(event->pos()));
-//        m_pNewTreeWidget->show();
-//    }
+  //    qDebug() << "-------dropEvent";
+  //    if(m_pNewTreeWidget == nullptr) {
+  //        qDebug() << "-------2";
+  //        m_pNewTreeWidget = new NewTreeWidget;
+  //        m_pNewTreeWidget->resize(200, 300);
+  //        m_pNewTreeWidget->move(mapToGlobal(event->pos()));
+  //        m_pNewTreeWidget->show();
+  //    }
 }
 
-void CustomTreeWidget::dragLeaveEvent(QDragLeaveEvent *event) {
+void CustomTreeWidget::dragLeaveEvent(QDragLeaveEvent* event) {
   qDebug() << "-------dragLeaveEvent";
 
   Q_UNUSED(event);
@@ -103,42 +102,41 @@ void CustomTreeWidget::dragLeaveEvent(QDragLeaveEvent *event) {
   }
 }
 
-void CustomTreeWidget::mouseReleaseEvent(QMouseEvent *event) {
+void CustomTreeWidget::mouseReleaseEvent(QMouseEvent* event) {
   is_pressed = false;
   QTreeWidget::mouseReleaseEvent(event);
   qDebug() << "-------mouseReleaseEvent---------------";
 }
 
-//void DragTreeWidget::mouseMoveEvent(QMouseEvent *event)
+// void DragTreeWidget::mouseMoveEvent(QMouseEvent *event)
 //{
 //    static int i = 0;
 //    qDebug() << "-------mouseMoveEvent" << i++;
 //}
 
-bool CustomTreeWidget::eventFilter(QObject *target, QEvent *event) {
-
-//    if(event->type() == QEvent::MouseMove)
-//    {
-//       // This piece of code is never called
-//        qDebug() << "-------mouseMoveEvent";
-//    }
+bool CustomTreeWidget::eventFilter(QObject* target, QEvent* event) {
+  //    if(event->type() == QEvent::MouseMove)
+  //    {
+  //       // This piece of code is never called
+  //        qDebug() << "-------mouseMoveEvent";
+  //    }
   return QTreeWidget::eventFilter(target, event);
 }
 
 QList<QString> CustomTreeWidget::getSelectedItemsText() {
   QList<QString> listItemText;
-  QList<QTreeWidgetItem *> listItem = this->selectedItems();
+  QList<QTreeWidgetItem*> listItem = this->selectedItems();
   if (listItem.count()) {
-        foreach (QTreeWidgetItem *item, listItem) {
-        QString text = item->text(0);
-        if (item->childCount() == 0)
-          listItemText.append(text);
-      }
+    foreach (QTreeWidgetItem* item, listItem) {
+      QString text = item->text(0);
+      if (item->childCount() == 0)
+        listItemText.append(text);
+    }
   }
   return listItemText;
 }
 
-void CustomTreeWidget::mousePressEvent(QMouseEvent *event) {
+void CustomTreeWidget::mousePressEvent(QMouseEvent* event) {
   is_pressed = true;
   index_list_ = this->selectedIndexes();
   QTreeWidget::mousePressEvent(event);
@@ -154,9 +152,11 @@ void CustomTreeWidget::mousePressEvent(QMouseEvent *event) {
 
   QByteArray itemData;
   QDataStream dataStream(&itemData, QIODevice::WriteOnly);
-  dataStream << pixmap << QPoint(event->pos() /*- child->pos()*/ + QPoint(pixmap.width() / 2, pixmap.height() / 2));
+  dataStream << pixmap
+             << QPoint(event->pos() /*- child->pos()*/ +
+                       QPoint(pixmap.width() / 2, pixmap.height() / 2));
 
-  QMimeData *mimeData = new QMimeData;
+  QMimeData* mimeData = new QMimeData;
   mimeData->setData("application/x-dnditemdata", itemData);
 
   QPixmap tempPixmap = pixmap;
@@ -178,23 +178,23 @@ void CustomTreeWidget::mousePressEvent(QMouseEvent *event) {
       painter.drawText(rectangle, 0, listText.at(i), &boundingRect);
     }
     auto index_list = this->selectedIndexes();
-    for (auto &index : index_list) {
-
+    for (auto& index : index_list) {
     }
-
   }
   painter.end();
 
-  QDrag *drag = new QDrag(this);
+  QDrag* drag = new QDrag(this);
   drag->setMimeData(mimeData);
   drag->setPixmap(tempPixmap);
-  drag->setHotSpot(/*mapToGlobal(event->pos())*/QPoint(pixmap.width() / 2, pixmap.height() / 2));
+  drag->setHotSpot(/*mapToGlobal(event->pos())*/ QPoint(pixmap.width() / 2,
+                                                        pixmap.height() / 2));
 
-  if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) == Qt::MoveAction) {
-//        child->close();
+  if (drag->exec(Qt::CopyAction | Qt::MoveAction, Qt::CopyAction) ==
+      Qt::MoveAction) {
+    //        child->close();
   } else {
-//        child->show();
-//        child->setPixmap(pixmap);
+    //        child->show();
+    //        child->setPixmap(pixmap);
   }
 }
 bool CustomTreeWidget::IsMousePressedFromDataTree() {

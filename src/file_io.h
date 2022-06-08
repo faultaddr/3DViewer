@@ -27,16 +27,21 @@ class FileIO {
   Data loadSTL(const QFileInfo& fileInfo);
   Data loadVTK(const QFileInfo& fileInfo);
 
-  bool save(const Data& myCloud, const QFileInfo& fileInfo,
+  bool save(const Data& myCloud,
+            const QFileInfo& fileInfo,
             bool isBinaryFormat);
-  bool savePLY(const Data& myCloud, const QFileInfo& fileInfo,
+  bool savePLY(const Data& myCloud,
+               const QFileInfo& fileInfo,
                bool isBinaryFormat);
-  bool savePCD(const Data& myCloud, const QFileInfo& fileInfo,
+  bool savePCD(const Data& myCloud,
+               const QFileInfo& fileInfo,
                bool isBinaryFormat);
   bool saveOBJ(const Data& myCloud, const QFileInfo& fileInfo);
-  bool saveSTL(const Data& myCloud, const QFileInfo& fileInfo,
+  bool saveSTL(const Data& myCloud,
+               const QFileInfo& fileInfo,
                bool isBinaryFormat);
-  bool saveVTK(const Data& myCloud, const QFileInfo& fileInfo,
+  bool saveVTK(const Data& myCloud,
+               const QFileInfo& fileInfo,
                bool isBinaryFormat);
 
   string getInputFormatsStr() const;

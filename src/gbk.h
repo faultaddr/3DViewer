@@ -11,7 +11,8 @@ class gbk {
   // QString(Unicode) -> std::string (gbk)
   static string FromUnicode(const QString& q_string) {
     QTextCodec* pCodec = QTextCodec::codecForName("gb2312");
-    if (!pCodec) return "";
+    if (!pCodec)
+      return "";
 
     QByteArray arr = pCodec->fromUnicode(q_string);
     string cstr = arr.data();
@@ -21,7 +22,8 @@ class gbk {
   // std::string (gbk) -> QString(Unicode)
   static QString ToUnicode(const string& cstr) {
     QTextCodec* pCodec = QTextCodec::codecForName("gb2312");
-    if (!pCodec) return "";
+    if (!pCodec)
+      return "";
 
     QString qstr = pCodec->toUnicode(cstr.c_str(), cstr.length());
     return qstr;

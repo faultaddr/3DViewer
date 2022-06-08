@@ -11,8 +11,14 @@
 #include <vector>
 
 // 计算三角形面积，接收三个角度的 xyz 坐标，返回面积
-double calculateTriangleMeshArea(double x1, double y1, double z1, double x2,
-                                 double y2, double z2, double x3, double y3,
+double calculateTriangleMeshArea(double x1,
+                                 double y1,
+                                 double z1,
+                                 double x2,
+                                 double y2,
+                                 double z2,
+                                 double x3,
+                                 double y3,
                                  double z3) {
   // Heron's formula
   double a, b, c, q;
@@ -29,7 +35,7 @@ double calculateTriangleMeshArea(double x1, double y1, double z1, double x2,
 // v0.2 这个版本只是将多边形按给定点三角剖分，但有两个局限：
 //   (1) 多边形顶点必须是有序的；（2）只适用于凸多边形，不适用于凹多边形
 // FIXME:
-double calculatePCLPolygonMeshArea(const pcl::PolygonMesh &mesh) {
+double calculatePCLPolygonMeshArea(const pcl::PolygonMesh& mesh) {
   size_t index1, index2, index3;
   double x1, y1, z1, x2, y2, z2, x3, y3, z3;
   double area = 0;
