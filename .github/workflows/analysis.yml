@@ -14,6 +14,7 @@ jobs:
   analyze:
     container:
       image: faultaddr/ubuntu22.04-pcl:v1
+      options: --user 1001
     name: Analyze
     runs-on: ubuntu-22.04
     permissions:
