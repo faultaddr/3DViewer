@@ -31,13 +31,10 @@ jobs:
 
     steps:
     - name: Checkout repository
-      run: git clone --recurse-submodules https://github.com/faultaddr/3DViewer.git && cd 3DViewer
+      run: git clone --recurse-submodules https://github.com/faultaddr/3DViewer.git && cd 3DViewer && mkdir build && cd build
     - name: Configure CMake
-      run: cmake -B build -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}}
-    - name: Build
-      # Build your program with the given configuration
-      run: cmake --build build --config ${{env.BUILD_TYPE}}
-
+      run: cmake .. -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} && make -j4
+    
     - name: clang-format
       uses: DoozyX/clang-format-lint-action@v0.13
       with:
