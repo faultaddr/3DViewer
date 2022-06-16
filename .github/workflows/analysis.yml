@@ -31,7 +31,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      run: git clone --recurse-submodules https://github.com/faultaddr/3DViewer.git && cd 3DViewer && mkdir build && cd build
+      run: git clone --recurse-submodules https://github.com/faultaddr/3DViewer.git && cd 3DViewer/3DViewer && mkdir build && cd build
     - name: Configure CMake
       run: cmake .. -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} && make -j4
     
