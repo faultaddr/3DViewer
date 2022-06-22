@@ -28,7 +28,7 @@ add_executable(${PROJECT_NAME}
         ${DIR_SRCS}
         ${DIR_HEADERS}
         ${DIR_UIS}
-        ${RESOURCE_ADDED} custom_tree_widget.cpp custom_tree_widget.h)
+        ${RESOURCE_ADDED})
 
 target_link_libraries(${PROJECT_NAME}
         ${PCL_LIBRARIES}

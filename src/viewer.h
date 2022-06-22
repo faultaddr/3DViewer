@@ -81,6 +81,7 @@ class Viewer : public QMainWindow {
 
  public:
   Viewer(QWidget* parent = 0);
+
   ~Viewer();
 
  protected:
@@ -146,7 +147,7 @@ class Viewer : public QMainWindow {
   void ShowModel();                  //显示点云
   void AddModel(int view_port = 0);  //添加给viewer，显示点云
   void CaptureModel(int viwe_port = 0);
-
+  int JudgeRender(int x, int y);
   void setCloudColor(unsigned int r, unsigned int g, unsigned int b);
   void HighLightTreeItemText(QTreeWidgetItem* item);
   void LowLightTreeItemText(QTreeWidgetItem* item);
@@ -193,7 +194,7 @@ class Viewer : public QMainWindow {
   void setRenderingMode();
 
   void popMenuInConsole(const QPoint&);
-  void ReleaseMouseOnScreen(QMouseEvent* event);
+
   void clearConsole();
   void enableConsole();
   void disableConsole();

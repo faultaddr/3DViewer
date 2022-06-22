@@ -65,14 +65,18 @@ Viewer::Viewer(QWidget* parent) : QMainWindow(parent) {
 
   /***** Slots connection of dataTree(QTreeWidget) widget *****/
   // Item in dataTree is left-clicked (connect)
-  connect(ui.dataTree, SIGNAL(itemClicked(QTreeWidgetItem*, int)), this,
-          SLOT(itemSelected(QTreeWidgetItem*, int)));
+
+  connect(ui.dataTree, SIGNAL(itemClicked(QTreeWidgetItem * , int)), this,
+          SLOT(itemSelected(QTreeWidgetItem * , int)));
   // Item in dataTree is right-clicked
   connect(ui.dataTree, SIGNAL(customContextMenuRequested(const QPoint&)), this,
           SLOT(popMenu(const QPoint&)));
 
-  connect(ui.dataTree, SIGNAL(itemChanged(QTreeWidgetItem*, int)), this,
-          SLOT(TreeItemChanged(QTreeWidgetItem*, int)));
+  connect(ui.dataTree, SIGNAL(itemChanged(QTreeWidgetItem * , int)), this,
+          SLOT(TreeItemChanged(QTreeWidgetItem * , int)));
+
+  connect(ui.consoleTable, SIGNAL(customContextMenuRequested(const QPoint &)),
+          this, SLOT(popMenuInConsole(const QPoint &)));
 
   connect(ui.consoleTable, SIGNAL(customContextMenuRequested(const QPoint&)),
           this, SLOT(popMenuInConsole(const QPoint&)));
@@ -84,33 +88,59 @@ Viewer::Viewer(QWidget* parent) : QMainWindow(parent) {
 
 Viewer::~Viewer() {}
 
-void Viewer::dragEnterEvent(QDragEnterEvent* event) {
+void Viewer::dragEnterEvent(QDragEnterEvent *event) {
   LOG(INFO) << "dragEnterEvent";
   if (event->mimeData()->hasUrls()) {
     event->acceptProposedAction();
-  } else if (event->mimeData()->hasFormat(
-                 "application/x-qabstractitemmodeldatalist")) {
+  } else if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
+    LOG(INFO) << "dragEnterEvent from datalist";
     event->setDropAction(Qt::MoveAction);
     event->accept();
   } else {
     event->ignore();
   }
 }
+int Viewer::JudgeRender(int x, int y) {
+  auto renders = viewer->getRenderWindow()->GetRenderers();
+  for (int i = 0; i < renders->GetNumberOfItems(); i++) {
+    auto render = static_cast<vtkRenderer *>(renders->GetItemAsObject(i));
+    int count = 0;
+    double vp[4];
+    count += 1;
+    render->GetViewport(vp);
+    render->NormalizedDisplayToDisplay(vp[0], vp[1]);
+    render->NormalizedDisplayToDisplay(vp[2], vp[3]);
 
-void Viewer::dropEvent(QDropEvent* event) {
+    double dx = vp[2] - vp[0];
+    double dy = vp[3] - vp[1];
+    LOG(INFO) << vp[0] << " " << vp[1] << " " << vp[2] << " " << vp[3]<<" "<< x<<" "<<y;
+    if (vp[0] <= x <= vp[2] && vp[1] <= y <= vp[3]) {
+      return i + 1;
+    }
+  }
+
+  return -1;
+}
+void Viewer::dropEvent(QDropEvent *event) {
   LOG(INFO) << "dropEvent";
-  if (event->mimeData()->hasUrls())  //判断放的类型
+  if (event->mimeData()->hasUrls())        //判断放的类型
   {
     QList<QUrl> url_list = event->mimeData()->urls();
     QStringList file_path_list;
-    for (auto& url : url_list) {
+    for (auto &url : url_list) {
       if (url.isLocalFile()) {
         file_path_list.push_back(url.toLocalFile());
       }
     }
     doOpen(file_path_list);
   } else {
-    event->ignore();
+    // Judge the item which to render;
+    int result = JudgeRender(event->pos().x()-ui.screen->pos().x(), event->pos().y()-ui.screen->pos().y());
+    if (result == -1) {
+      event->ignore();
+    } else {
+      LOG(INFO) << "render " << result << " got dataitem"<< " "<<ui.screen->pos().x()<<" "<<ui.screen->y();
+    }
   }
 }
 
@@ -125,8 +155,8 @@ void Viewer::doOpen(const QStringList& filePathList) {
 
     // begin loading
     ui.statusBar->showMessage(fileInfo.fileName() + ": " + QString::number(i) +
-                              "/" + QString::number(filePathList.size()) +
-                              " point cloud loading...");
+        "/" + QString::number(filePathList.size()) +
+        " point cloud loading...");
 
     mycloud = fileIO.load(fileInfo);
     if (!mycloud.isValid) {
@@ -219,14 +249,14 @@ void Viewer::save() {
   // get binary flag from sender()
   QAction* action = qobject_cast<QAction*>(sender());
   QVariant v = action->data();
-  bool isSaveBinary = (bool)v.value<bool>();
+  bool isSaveBinary = (bool) v.value<bool>();
 
   QString selectedFilter =
       toQString(fileIO.outputFiltersMap.at(mycloud.fileSuffix));
   QString saveFilePath = QFileDialog::getSaveFileName(
       this,  // parent
       toQString("Save point cloud" +
-                string(isSaveBinary ? " (binary)" : "")),  // caption
+          string(isSaveBinary ? " (binary)" : "")),  // caption
       toQString(mycloud.filePath),                         // dir
       toQString(fileIO.getOutputFormatsStr()),             // filter
       &selectedFilter                                      // selected filter
@@ -333,7 +363,7 @@ void Viewer::cube() {
   mycloud.cloud->height = 1;  // 设置点云高，高为1，说明为无组织点云
   mycloud.cloud->is_dense = false;
   mycloud.cloud->resize(mycloud.cloud->width *
-                        mycloud.cloud->height);  // 重置点云大小
+      mycloud.cloud->height);  // 重置点云大小
   for (size_t i = 0; i != mycloud.cloud->size(); ++i) {
     mycloud.cloud->points[i].x = 1024 * rand() / (RAND_MAX + 1.0f);
     mycloud.cloud->points[i].y = 1024 * rand() / (RAND_MAX + 1.0f);
@@ -523,7 +553,7 @@ void Viewer::createCylinder() {
 void Viewer::ChangeTheme() {
   QAction* action = qobject_cast<QAction*>(sender());
   QVariant v = action->data();
-  int theme = (int)v.value<int>();
+  int theme = (int) v.value<int>();
 
   QColor colorLight(241, 241, 241, 255);
   QColor colorDark(0, 0, 0, 255);
@@ -560,7 +590,7 @@ void Viewer::ChangeTheme() {
 void Viewer::ChangeLanguage() {
   QAction* action = qobject_cast<QAction*>(sender());
   QVariant v = action->data();
-  int language = (int)v.value<int>();
+  int language = (int) v.value<int>();
 
   switch (language) {
     case VIEWER_LANG_ENGLISH: {
@@ -624,6 +654,7 @@ void Viewer::RenderNumChanged(int index) {
       int v1(0), v2(0);
       //先移除所有 point
       viewer->removeAllPointClouds();
+      viewer->getRenderWindow()->GetRenderers()->RemoveAllItems();
       viewer->createViewPort(0.0, 0.0, 0.5, 1.0, v1);
       viewer->addText("", 10, 10, "v1", v1);  //设置视口名称
       viewer->createViewPort(0.5, 0.0, 1.0, 1.0, v2);
@@ -846,8 +877,8 @@ void Viewer::itemSelected(QTreeWidgetItem* item, int count) {
   ui.propertyTable->setItem(1, 1,
                             new QTableWidgetItem(QString::number(cloud_size)));
   int faces = mycloud_vec[count].meshId.size() != 0
-                  ? mycloud_vec[count].mesh->polygons.size()
-                  : 0;
+              ? mycloud_vec[count].mesh->polygons.size()
+              : 0;
   ui.propertyTable->setItem(2, 1, new QTableWidgetItem(QString::number(faces)));
   ui.propertyTable->setItem(
       3, 1, new QTableWidgetItem(QString::number(total_points)));
@@ -855,8 +886,8 @@ void Viewer::itemSelected(QTreeWidgetItem* item, int count) {
       4, 1,
       new QTableWidgetItem(multi_color ? "Multi Color"
                                        : (QString::number(cloud_r) + " " +
-                                          QString::number(cloud_g) + " " +
-                                          QString::number(cloud_b))));
+              QString::number(cloud_g) + " " +
+              QString::number(cloud_b))));
 
   //选中item所对应的点云尺寸变大
   QList<QTreeWidgetItem*> itemList = ui.dataTree->selectedItems();
@@ -901,14 +932,6 @@ void Viewer::popMenuInConsole(const QPoint&) {
   }
 
   menu.exec(QCursor::pos());  //在当前鼠标位置显示
-}
-
-void Viewer::ReleaseMouseOnScreen(QMouseEvent* event) {
-  LOG(INFO) << "ReleaseMouseOnScreen";
-  if (ui.dataTree->IsMousePressedFromDataTree()) {
-    LOG(INFO) << "ReleaseMouseOnScreen IsMousePressedFromDataTree x:"
-              << event->x() << ", y:" << event->y();
-  }
 }
 
 // 清空 consoleTable
@@ -1116,7 +1139,7 @@ void Viewer::deleteItem() {
 void Viewer::setRenderingMode() {
   QAction* action = qobject_cast<QAction*>(sender());
   QVariant v = action->data();
-  int mode = (int)v.value<int>();
+  int mode = (int) v.value<int>();
   string modeStr;
 
   switch (mode) {
