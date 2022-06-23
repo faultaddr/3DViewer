@@ -34,10 +34,10 @@ For Mac: (is comming)
     - compile && install vtk 9.1 (using ccmake to choose QT version)
     - compile && install pcl 1.12.1 (using ccmake to choose QT version)
     - mkdir build && cd build && cmake .. && make -j4 && ./src/3DViewer
+    - offical docker image: [3DViewer compile docker image](https://hub.docker.com/repository/docker/faultaddr/ubuntu22.04-pcl)
 
 - Windows:
     - I believe that no one wants to use windows, If U are using it now, just wait until the day 3DViewer would compile on it.
-
 
 
 # Maintainers
