@@ -35,7 +35,7 @@ jobs:
       with:
         submodules: recursive
     - name: Configure CMake
-      run:  cd 3DViewer && mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} && make -j4 && cd ..
+      run:  ls -la && mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} && make -j4 && cd ..
     - name: clang-format
       uses: DoozyX/clang-format-lint-action@v0.13
       with:
