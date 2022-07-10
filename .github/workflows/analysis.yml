@@ -39,12 +39,18 @@ jobs:
       uses: DoozyX/clang-format-lint-action@v0.13
       with:
         source: '.'
-        exclude: './src/log ./build ./src/build'
+        exclude: './src/log'
         extensions: 'h,cpp,c'
         clangFormatVersion: 12
         inplace: True
         style: chromium
-      
-    - name: push
-      run: ls -la && cd 3DViewer && ls -la && sed -i "s#https://github.com/faultaddr/3DViewer.git#git@github.com:faultaddr/3DViewer.git#g" .git/config && git config --global user.name "robot" && git config --global user.email "robot@faultaddr.com" && git add . && git commit -m "[format] code style format" && git push -u origin master
-      
+    - name: format-result-push
+      uses: EndBug/add-and-commit@v9
+      with:
+          author_name: robot
+          author_email: robot@faultaddr.com
+          message: 'format: clang format'
+          add: '*'
+          cwd: './3DViewer'
+      env:
+        GITHUB_TOKEN: ${{ secrets.ROBOT_SECRET }}
