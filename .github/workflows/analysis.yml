@@ -52,6 +52,5 @@ jobs:
           author_email: robot@faultaddr.com
           message: 'format: clang format'
           add: '*'
-          cwd: './3DViewer'
       env:
         GITHUB_TOKEN: ${{ secrets.ROBOT_SECRET }}
