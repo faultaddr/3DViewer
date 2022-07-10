@@ -9,7 +9,7 @@ Data::Data() {
 
 Data::~Data() = default;
 
-void Data::init(const QFileInfo& fileInfo,
+void Data::init(const QFileInfo &fileInfo,
                 bool hasCloudParam,
                 bool hasMeshParam) {
   hasCloud = hasCloudParam;
@@ -44,7 +44,7 @@ void Data::init(const QFileInfo& fileInfo,
 }
 
 void Data::setPointColor(int r, int g, int b) {
-  for (auto& point : cloud->points) {
+  for (auto &point : cloud->points) {
     point.r = r;
     point.g = g;
     point.b = b;
@@ -52,12 +52,12 @@ void Data::setPointColor(int r, int g, int b) {
 }
 
 void Data::setPointAlpha(int a) {
-  for (auto& point : cloud->points) {
+  for (auto &point : cloud->points) {
     point.a = a;
   }
 }
 
-void Data::setShowMode(const string& mode) {
+void Data::setShowMode(const string &mode) {
   curMode = mode;
   show();
 }
