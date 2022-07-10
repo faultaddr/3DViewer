@@ -4,7 +4,7 @@
 
 #include "glog/logging.h"
 #include "viewer.h"
-void CustomPrefix(std::ostream& s, const google::LogMessageInfo& l, void*) {
+void CustomPrefix(std::ostream &s, const google::LogMessageInfo &l, void *) {
   s << "[" << l.severity << "] " << std::setw(4) << 1900 + l.time.year()
     << std::setw(2) << 1 + l.time.month() << std::setw(2) << l.time.day() << ' '
     << std::setw(2) << l.time.hour() << ':' << std::setw(2) << l.time.min()
@@ -12,7 +12,7 @@ void CustomPrefix(std::ostream& s, const google::LogMessageInfo& l, void*) {
     << l.time.usec() << ' ' << std::setfill(' ') << std::setw(5) << l.thread_id
     << std::setfill('0') << ' ' << l.filename << ':' << l.line_number;
 }
-int main(int argc, char* argv[]) {
+int main(int argc, char *argv[]) {
   google::InitGoogleLogging(argv[0], &CustomPrefix);
   FLAGS_logtostderr = false;
   FLAGS_alsologtostderr = false;

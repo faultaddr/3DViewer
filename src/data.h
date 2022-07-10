@@ -51,7 +51,7 @@ class Data {
 
   void setPointColor(int r, int g, int b);
   void setPointAlpha(int a);
-  void setShowMode(const string& mode);
+  void setShowMode(const string &mode);
   void showCloud();
   void hideCloud();
   void showMesh();
@@ -59,7 +59,7 @@ class Data {
   void show();
   void hide();
 
-  void init(const QFileInfo& fileInfo, bool hasCloud, bool hasMesh);
+  void init(const QFileInfo &fileInfo, bool hasCloud, bool hasMesh);
 
   static Data getInvalidMyCloud() {
     Data myCloud;

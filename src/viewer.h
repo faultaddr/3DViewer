@@ -77,16 +77,16 @@ using std::string;
 using std::vector;
 
 class Viewer : public QMainWindow {
-  Q_OBJECT
+ Q_OBJECT
 
  public:
-  Viewer(QWidget* parent = 0);
+  Viewer(QWidget *parent = 0);
 
   ~Viewer();
 
  protected:
-  void dragEnterEvent(QDragEnterEvent* event) override;
-  void dropEvent(QDropEvent* event) override;
+  void dragEnterEvent(QDragEnterEvent *event) override;
+  void dropEvent(QDropEvent *event) override;
 
  private:
   Ui::Viewer ui;
@@ -108,7 +108,7 @@ class Viewer : public QMainWindow {
   std::vector<int> pointcolor;
   std::vector<int> bgcolor;
 
-  QVBoxLayout* layout;
+  QVBoxLayout *layout;
 
   int theme_id = 1;              // 0: Windows theme, 1: Darcula theme
   bool enable_console = true;    // console 的可用状态
@@ -119,10 +119,10 @@ class Viewer : public QMainWindow {
   // File menu slots
   void open();
   void add();
-  void doOpen(const QStringList& filePathList);
+  void doOpen(const QStringList &filePathList);
   void clear();
 
-  void savemulti(const QFileInfo& fileInfo, bool isSaveBinary);
+  void savemulti(const QFileInfo &fileInfo, bool isSaveBinary);
   void exit();
   // Display menu slots
   void pointcolorChanged();
@@ -149,8 +149,8 @@ class Viewer : public QMainWindow {
   void CaptureModel(int viwe_port = 0);
   int JudgeRender(int x, int y);
   void setCloudColor(unsigned int r, unsigned int g, unsigned int b);
-  void HighLightTreeItemText(QTreeWidgetItem* item);
-  void LowLightTreeItemText(QTreeWidgetItem* item);
+  void HighLightTreeItemText(QTreeWidgetItem *item);
+  void LowLightTreeItemText(QTreeWidgetItem *item);
 
   void setPropertyTable();
 
@@ -181,11 +181,11 @@ class Viewer : public QMainWindow {
 
   /***** Slots of dataTree(QTreeWidget) widget *****/
   // Item in dataTree is left-clicked
-  void itemSelected(QTreeWidgetItem*, int);
+  void itemSelected(QTreeWidgetItem *, int);
   // Item in dataTree is right-clicked
-  void popMenu(const QPoint&);
+  void popMenu(const QPoint &);
 
-  void TreeItemChanged(QTreeWidgetItem*, int);
+  void TreeItemChanged(QTreeWidgetItem *, int);
   void hideItem();
   void showItem();
   void deleteItem();
@@ -193,13 +193,13 @@ class Viewer : public QMainWindow {
   // set show mode
   void setRenderingMode();
 
-  void popMenuInConsole(const QPoint&);
+  void popMenuInConsole(const QPoint &);
 
   void clearConsole();
   void enableConsole();
   void disableConsole();
 
-  void debug(const string& s);
+  void debug(const string &s);
   void UpdateScreen();
 };
 
