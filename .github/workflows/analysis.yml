@@ -31,7 +31,7 @@ jobs:
 
     steps:
     - name: Checkout repository
-      run: git clone --recurse-submodules git@github.com:faultaddr/3DViewer.git && cd 3DViewer && mkdir build 
+      run: git clone --recurse-submodules https://github.com/faultaddr/3DViewer.git && cd 3DViewer && mkdir build 
     - name: Configure CMake
       run: cd 3DViewer/build && cmake .. -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} && make -j4 && cd ..
     
@@ -46,5 +46,5 @@ jobs:
         style: chromium
       
     - name: push
-      run: ls -la && cd 3DViewer && ls -la && git config --global user.name "robot" && git config --global user.email "robot@faultaddr.com" && git add . && git commit -m "[format] code style format" && git push
+      run: ls -la && cd 3DViewer && ls -la && sed -i "s#https://github.com/faultaddr/3DViewer.git#git@github.com:faultaddr/3DViewer.git" .git/config && git config --global user.name "robot" && git config --global user.email "robot@faultaddr.com" && git add . && git commit -m "[format] code style format" && git push
       
