@@ -13,7 +13,7 @@ env:
 jobs:
   analyze:
     container:
-      image: faultaddr/ubuntu22.04-pcl:v1
+      image: faultaddr/ubuntu22.04-pcl:v3
       options: --user 1001
     name: Analyze
     runs-on: ubuntu-22.04
@@ -39,19 +39,12 @@ jobs:
       uses: DoozyX/clang-format-lint-action@v0.13
       with:
         source: '.'
-        exclude: './src/log'
+        exclude: './src/log ./build ./src/build'
         extensions: 'h,cpp,c'
         clangFormatVersion: 12
         inplace: True
         style: chromium
-    - name: format-result-push
-      uses: EndBug/add-and-commit@v9
-      with:
-          author_name: robot
-          author_email: robot@faultaddr.com
-          message: 'format: clang format'
-          add: '*'
-          cwd: '/__w/3DViewer/3DViewer/3DViewer/'
-      env:
-        GITHUB_TOKEN: ${{ secrets.ROBOT_SECRET }}
+      
+    - name: push
+      run: git config --global user.name "robot" && git config --global user.email "robot@faultaddr.com" && git add . && git commit -m "format: code style format" && git push
       
