@@ -20,9 +20,9 @@ void timeStart();
 QString timeOff();
 
 // string to QString
-QString toQString(const string &s);
+QString toQString(const string& s);
 // QString to string
-string fromQString(const QString &qs);
+string fromQString(const QString& qs);
 
 string joinStrVec(const vector<string> v, string splitor = " ");
 

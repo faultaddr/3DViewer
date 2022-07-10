@@ -9,8 +9,8 @@ using std::string;
 class gbk {
  public:
   // QString(Unicode) -> std::string (gbk)
-  static string FromUnicode(const QString &q_string) {
-    QTextCodec *pCodec = QTextCodec::codecForName("gb2312");
+  static string FromUnicode(const QString& q_string) {
+    QTextCodec* pCodec = QTextCodec::codecForName("gb2312");
     if (!pCodec)
       return "";
 
@@ -20,8 +20,8 @@ class gbk {
   }
 
   // std::string (gbk) -> QString(Unicode)
-  static QString ToUnicode(const string &cstr) {
-    QTextCodec *pCodec = QTextCodec::codecForName("gb2312");
+  static QString ToUnicode(const string& cstr) {
+    QTextCodec* pCodec = QTextCodec::codecForName("gb2312");
     if (!pCodec)
       return "";
 

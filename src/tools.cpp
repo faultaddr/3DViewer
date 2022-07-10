@@ -25,12 +25,12 @@ QString timeOff() {
   return tr_timediff;
 }
 
-QString toQString(const string &s) {
+QString toQString(const string& s) {
   QString qs(s.c_str());
   return qs;
 }
 
-string fromQString(const QString &qs) {
+string fromQString(const QString& qs) {
   string s = qs.toUtf8().data();
   return s;
 }

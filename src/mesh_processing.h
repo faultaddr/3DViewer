@@ -8,7 +8,7 @@
 
 #include <cmath>
 
-double calculatePCLPolygonMeshArea(const pcl::PolygonMesh &);
+double calculatePCLPolygonMeshArea(const pcl::PolygonMesh&);
 
 pcl::PolygonMesh triangulationGreedyProjection(
     pcl::PointCloud<pcl::PointXYZ>::Ptr xyzCloud);

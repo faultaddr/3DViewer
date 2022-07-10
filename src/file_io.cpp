@@ -4,7 +4,7 @@
 
 #include "tools.h"
 
-Data FileIO::loadPLY(const QFileInfo &fileInfo) {
+Data FileIO::loadPLY(const QFileInfo& fileInfo) {
   Data myCloud;
   string filePath = fromQString(fileInfo.filePath());
   int status = -1;
@@ -18,7 +18,7 @@ Data FileIO::loadPLY(const QFileInfo &fileInfo) {
   return myCloud;
 }
 
-Data FileIO::loadPCD(const QFileInfo &fileInfo) {
+Data FileIO::loadPCD(const QFileInfo& fileInfo) {
   Data myCloud;
   string filePath = fromQString(fileInfo.filePath());
   int status = -1;
@@ -32,7 +32,7 @@ Data FileIO::loadPCD(const QFileInfo &fileInfo) {
   return myCloud;
 }
 
-Data FileIO::loadOBJ(const QFileInfo &fileInfo) {
+Data FileIO::loadOBJ(const QFileInfo& fileInfo) {
   Data myCloud;
   string filePath = fromQString(fileInfo.filePath());
   int status = -1;
@@ -46,7 +46,7 @@ Data FileIO::loadOBJ(const QFileInfo &fileInfo) {
   return myCloud;
 }
 
-Data FileIO::loadSTL(const QFileInfo &fileInfo) {
+Data FileIO::loadSTL(const QFileInfo& fileInfo) {
   Data myCloud;
   string filePath = fromQString(fileInfo.filePath());
   pcl::io::loadPolygonFileSTL(filePath, *(myCloud.mesh));
@@ -58,7 +58,7 @@ Data FileIO::loadSTL(const QFileInfo &fileInfo) {
   return myCloud;
 }
 
-Data FileIO::loadVTK(const QFileInfo &fileInfo) {
+Data FileIO::loadVTK(const QFileInfo& fileInfo) {
   Data myCloud;
   string filePath = fromQString(fileInfo.filePath());
   pcl::io::loadPolygonFileVTK(filePath, *(myCloud.mesh));
@@ -70,7 +70,7 @@ Data FileIO::loadVTK(const QFileInfo &fileInfo) {
   return myCloud;
 }
 
-Data FileIO::load(const QFileInfo &fileInfo) {
+Data FileIO::load(const QFileInfo& fileInfo) {
   string suffix = fromQString(fileInfo.suffix().toLower());
   if (suffix == "ply") {
     return loadPLY(fileInfo);
@@ -87,8 +87,8 @@ Data FileIO::load(const QFileInfo &fileInfo) {
   }
 }
 
-bool FileIO::savePLY(const Data &myCloud,
-                     const QFileInfo &fileInfo,
+bool FileIO::savePLY(const Data& myCloud,
+                     const QFileInfo& fileInfo,
                      bool isBinaryFormat) {
   if (!myCloud.isValid)
     return false;
@@ -101,7 +101,7 @@ bool FileIO::savePLY(const Data &myCloud,
   }
 }
 
-bool FileIO::saveOBJ(const Data &myCloud, const QFileInfo &fileInfo) {
+bool FileIO::saveOBJ(const Data& myCloud, const QFileInfo& fileInfo) {
   if (!myCloud.hasMesh)
     return false;
   string filePath = fromQString(fileInfo.filePath());
@@ -111,8 +111,8 @@ bool FileIO::saveOBJ(const Data &myCloud, const QFileInfo &fileInfo) {
 }
 
 // There is no pcl::io::savePolygonFilePCD, so mesh can not be saved.
-bool FileIO::savePCD(const Data &myCloud,
-                     const QFileInfo &fileInfo,
+bool FileIO::savePCD(const Data& myCloud,
+                     const QFileInfo& fileInfo,
                      bool isBinaryFormat) {
   if (!myCloud.isValid)
     return false;
@@ -121,8 +121,8 @@ bool FileIO::savePCD(const Data &myCloud,
   return status == 0;
 }
 
-bool FileIO::saveSTL(const Data &myCloud,
-                     const QFileInfo &fileInfo,
+bool FileIO::saveSTL(const Data& myCloud,
+                     const QFileInfo& fileInfo,
                      bool isBinaryFormat) {
   if (!myCloud.hasMesh)
     return false;
@@ -130,8 +130,8 @@ bool FileIO::saveSTL(const Data &myCloud,
   return pcl::io::savePolygonFileSTL(filePath, *myCloud.mesh, isBinaryFormat);
 }
 
-bool FileIO::saveVTK(const Data &myCloud,
-                     const QFileInfo &fileInfo,
+bool FileIO::saveVTK(const Data& myCloud,
+                     const QFileInfo& fileInfo,
                      bool isBinaryFormat) {
   if (!myCloud.hasMesh)
     return false;
@@ -139,8 +139,8 @@ bool FileIO::saveVTK(const Data &myCloud,
   return pcl::io::savePolygonFileVTK(filePath, *myCloud.mesh, isBinaryFormat);
 }
 
-bool FileIO::save(const Data &myCloud,
-                  const QFileInfo &fileInfo,
+bool FileIO::save(const Data& myCloud,
+                  const QFileInfo& fileInfo,
                   bool isBinaryFormat) {
   string suffix = fromQString(fileInfo.suffix().toLower());
   if (suffix == "ply") {
