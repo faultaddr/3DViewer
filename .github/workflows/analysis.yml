@@ -31,10 +31,11 @@ jobs:
 
     steps:
     - name: Checkout repository
-      run: git clone --recurse-submodules https://github.com/faultaddr/3DViewer.git && cd 3DViewer && mkdir build 
+      uses: actions/checkout@v3
+      with:
+        submodules: recursive
     - name: Configure CMake
-      run: cd 3DViewer/build && cmake .. -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} && make -j4 && cd ..
-    
+      run:  cd 3DViewer && mkdir build && cd build && cmake .. -DCMAKE_BUILD_TYPE=${{env.BUILD_TYPE}} && make -j4 && cd ..
     - name: clang-format
       uses: DoozyX/clang-format-lint-action@v0.13
       with:
