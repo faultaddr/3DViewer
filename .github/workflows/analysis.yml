@@ -39,7 +39,6 @@ jobs:
       uses: DoozyX/clang-format-lint-action@v0.13
       with:
         source: '.'
-        cwd: '/__w/3DViewer/3DViewer/3DViewer/'
         exclude: './src/log'
         extensions: 'h,cpp,c'
         clangFormatVersion: 12
@@ -52,6 +51,7 @@ jobs:
           author_email: robot@faultaddr.com
           message: 'format: clang format'
           add: '*'
+          cwd: '/__w/3DViewer/3DViewer/3DViewer/'
       env:
         GITHUB_TOKEN: ${{ secrets.ROBOT_SECRET }}
       
