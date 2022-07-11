@@ -1,7 +1,11 @@
 cmake_minimum_required(VERSION 3.5)
 project(3DViewer)
 
-
+find_program(CCACHE_FOUND ccache)
+if(CCACHE_FOUND)
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_COMPILE ccache)
+    set_property(GLOBAL PROPERTY RULE_LAUNCH_LINK ccache) # Less useful to do it for linking, see edit2
+endif(CCACHE_FOUND)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 # find package
 find_package(Qt5 REQUIRED Widgets)
