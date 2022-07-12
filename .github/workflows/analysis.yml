@@ -2,9 +2,9 @@ name: Code-Analysis
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "dev" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "master", "dev" ]
 
 env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
@@ -54,3 +54,13 @@ jobs:
           add: '*'
       env:
         GITHUB_TOKEN: ${{ secrets.ROBOT_SECRET }}
+    - name: package
+      run: chmod +x ./src/package.sh && ./package.sh ./build/src/3DViewer
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.0
+      with:
+        # Artifact name
+        name: 3DViewer
+        # A file, directory or wildcard pattern that describes what to upload
+        path: ./build/src/*.tar
+        # The desired behavior if no files are found using the provided path.
