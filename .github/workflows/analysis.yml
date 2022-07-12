@@ -55,7 +55,7 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.ROBOT_SECRET }}
     - name: package
-      run: chmod +x ./src/package.sh && ./package.sh ./build/src/3DViewer
+      run: chmod +x ./src/package.sh && ./src/package.sh ./build/src/3DViewer
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.0
       with:
