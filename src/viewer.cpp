@@ -116,8 +116,8 @@ int Viewer::JudgeRender(int x, int y, int index) {
     render->NormalizedDisplayToDisplay(vp[2], vp[3]);
     if (y >= vp[1] && y <= vp[3] && x >= vp[0] && x <= vp[2]) {
       render->Clear();
-      viewer->addPointCloud(mycloud_vec[index].cloud, mycloud_vec[index].cloudId,
-                            i);
+      viewer->addPointCloud(mycloud_vec[index].cloud,
+                            mycloud_vec[index].cloudId, i);
       display_cloudId.push_back(mycloud_vec[index].cloudId);
       mycloud_vec[index].visible = true;
       ShowModel();
@@ -142,7 +142,7 @@ void Viewer::dropEvent(QDropEvent* event) {
     // Judge the item which to render; set default to 0
     if (event->mimeData()->hasText()) {
       auto item = event->mimeData()->text();
-      char *res = strtok(const_cast<char*>(item.toStdString().c_str()), "-");
+      char* res = strtok(const_cast<char*>(item.toStdString().c_str()), "-");
       LOG(INFO) << res;
       vector<int> res_split;
       while (res != nullptr) {
@@ -151,8 +151,9 @@ void Viewer::dropEvent(QDropEvent* event) {
         res = strtok(nullptr, "-");
       }
 
-      int result = JudgeRender(event->pos().x() - ui.screen->pos().x(),
-                               event->pos().y() - ui.screen->pos().y(), res_split[0]);
+      int result =
+          JudgeRender(event->pos().x() - ui.screen->pos().x(),
+                      event->pos().y() - ui.screen->pos().y(), res_split[0]);
       if (result == -1) {
         event->ignore();
       } else {

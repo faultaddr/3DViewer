@@ -150,13 +150,13 @@ void CustomTreeWidget::mousePressEvent(QMouseEvent* event) {
   QPixmap pixmap = QPixmap::fromImage(image);
   // pixmap.load(Global::GetImagePath() + "hover.png");
 
-//  dataStream << pixmap
-//             << QPoint(event->pos() /*- child->pos()*/ +
-//                       QPoint(pixmap.width() / 2, pixmap.height() / 2));
+  //  dataStream << pixmap
+  //             << QPoint(event->pos() /*- child->pos()*/ +
+  //                       QPoint(pixmap.width() / 2, pixmap.height() / 2));
   std::string res;
-  for(auto model_index: this->selectedIndexes()){
-    LOG(INFO)<<model_index.row();
-    res.append(std::to_string(model_index.row())+"-");
+  for (auto model_index : this->selectedIndexes()) {
+    LOG(INFO) << model_index.row();
+    res.append(std::to_string(model_index.row()) + "-");
   }
   QMimeData* mimeData = new QMimeData;
   QString q_str = QString::fromStdString(res);
