@@ -11,7 +11,7 @@
 #include <QMouseEvent>
 #include <QPainter>
 #include <QPixmap>
-
+#include "glog/logging.h"
 CustomTreeWidget::CustomTreeWidget(QWidget* parent) : QTreeWidget(parent) {
   this->installEventFilter(this);
   this->setMouseTracking(true);
@@ -24,7 +24,7 @@ void CustomTreeWidget::setNewTreeState(bool state) {
 }
 
 void CustomTreeWidget::dragEnterEvent(QDragEnterEvent* event) {
-  if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
+  if (event->mimeData()->hasText()) {
     if (event->source() == this) {
       event->setDropAction(Qt::MoveAction);
       event->accept();
@@ -37,7 +37,7 @@ void CustomTreeWidget::dragEnterEvent(QDragEnterEvent* event) {
 }
 
 void CustomTreeWidget::dragMoveEvent(QDragMoveEvent* event) {
-  if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
+  if (event->mimeData()->hasText()) {
     if (event->source() == this) {
       event->setDropAction(Qt::MoveAction);
       event->accept();
@@ -150,14 +150,17 @@ void CustomTreeWidget::mousePressEvent(QMouseEvent* event) {
   QPixmap pixmap = QPixmap::fromImage(image);
   // pixmap.load(Global::GetImagePath() + "hover.png");
 
-  QByteArray itemData;
-  QDataStream dataStream(&itemData, QIODevice::WriteOnly);
-  dataStream << pixmap
-             << QPoint(event->pos() /*- child->pos()*/ +
-                       QPoint(pixmap.width() / 2, pixmap.height() / 2));
-
+  //  dataStream << pixmap
+  //             << QPoint(event->pos() /*- child->pos()*/ +
+  //                       QPoint(pixmap.width() / 2, pixmap.height() / 2));
+  std::string res;
+  for (auto model_index : this->selectedIndexes()) {
+    LOG(INFO) << model_index.row();
+    res.append(std::to_string(model_index.row()) + "-");
+  }
   QMimeData* mimeData = new QMimeData;
-  mimeData->setData("application/x-dnditemdata", itemData);
+  QString q_str = QString::fromStdString(res);
+  mimeData->setText(q_str);
 
   QPixmap tempPixmap = pixmap;
   QPainter painter;

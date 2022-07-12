@@ -93,7 +93,7 @@ void Viewer::dragEnterEvent(QDragEnterEvent* event) {
   LOG(INFO) << "dragEnterEvent";
   if (event->mimeData()->hasUrls()) {
     event->acceptProposedAction();
-  } else if (event->mimeData()->hasFormat("application/x-dnditemdata")) {
+  } else if (event->mimeData()->hasText()) {
     LOG(INFO) << "dragEnterEvent from datalist";
     event->setDropAction(Qt::MoveAction);
     event->accept();
@@ -101,7 +101,8 @@ void Viewer::dragEnterEvent(QDragEnterEvent* event) {
     event->ignore();
   }
 }
-int Viewer::JudgeRender(int x, int y) {
+
+int Viewer::JudgeRender(int x, int y, int index) {
   // width: 695  height: 451
   auto renders = viewer->getRenderWindow()->GetRenderers();
   x = x - ui.dataTree->geometry().width() - ui.dataTree->x();
@@ -113,13 +114,13 @@ int Viewer::JudgeRender(int x, int y) {
     render->GetViewport(vp);
     render->NormalizedDisplayToDisplay(vp[0], vp[1]);
     render->NormalizedDisplayToDisplay(vp[2], vp[3]);
-    double dx = vp[2] - vp[0];
-    double dy = vp[3] - vp[1];
-    LOG(INFO) << x << " -> " << vp[0] << " " << vp[2] << " " << y << " -> "
-              << vp[1] << " " << vp[3]
-              << "width: " << ui.dataTree->geometry().width();
     if (y >= vp[1] && y <= vp[3] && x >= vp[0] && x <= vp[2]) {
-      return i + 1;
+      render->Clear();
+      viewer->addPointCloud(mycloud_vec[index].cloud,
+                            mycloud_vec[index].cloudId, i);
+      display_cloudId.push_back(mycloud_vec[index].cloudId);
+      mycloud_vec[index].visible = true;
+      ShowModel();
     }
   }
 
@@ -138,14 +139,25 @@ void Viewer::dropEvent(QDropEvent* event) {
     }
     doOpen(file_path_list);
   } else {
-    // Judge the item which to render;
-    int result = JudgeRender(event->pos().x() - ui.screen->pos().x(),
-                             event->pos().y() - ui.screen->pos().y());
-    if (result == -1) {
-      event->ignore();
-    } else {
-      LOG(INFO) << "render " << result << " got dataitem"
-                << " " << ui.screen->pos().x() << " " << ui.screen->y();
+    // Judge the item which to render; set default to 0
+    if (event->mimeData()->hasText()) {
+      auto item = event->mimeData()->text();
+      char* res = strtok(const_cast<char*>(item.toStdString().c_str()), "-");
+      LOG(INFO) << res;
+      vector<int> res_split;
+      while (res != nullptr) {
+        res_split.push_back(stoi(res));
+        cout << res << endl;
+        res = strtok(nullptr, "-");
+      }
+
+      int result =
+          JudgeRender(event->pos().x() - ui.screen->pos().x(),
+                      event->pos().y() - ui.screen->pos().y(), res_split[0]);
+      if (result == -1) {
+        event->ignore();
+      } else {
+      }
     }
   }
 }
@@ -657,7 +669,7 @@ void Viewer::RenderNumChanged(int index) {
       break;
     }
     case 1: {
-      int v1(0), v2(0);
+      int v1(0), v2(1);
       //先移除所有 point
       viewer->removeAllPointClouds();
       viewer->getRenderWindow()->GetRenderers()->RemoveAllItems();
