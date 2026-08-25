@@ -1,3 +1,5 @@
+
+
 # 3DViewer
 
 [![Documentation](https://softacheck.com/app/repository/faultaddr/3DViewer/documentation/badge)](https://softacheck.com/app/docs/faultaddr/3DViewer/)
@@ -46,7 +48,7 @@ For Mac: (is comming)
 
 # Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=faultaddr/3DViewer&type=Date)](https://star-history.com/#bytebase/star-history&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=faultaddr/3DViewer&type=Date)](https://star-history.com/#faultaddr/3DViewer&Date)
 
 # Contributing
 
